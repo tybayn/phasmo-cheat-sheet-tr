@@ -1,29 +1,29 @@
 evi_color = {
     "EMF 5": "#db4d48",
-    "DOTs": "#2ccc29",
-    "Ultraviolet": "#ad8ce7",
-    "Freezing": "#9ae0f7",
-    "Ghost Orbs": "#dbd993",
-    "Writing": "#4d8ce3",
-    "Spirit Box": "#d18c5e", 
+    "DOTS": "#2ccc29",
+    "Ultraviyole": "#ad8ce7",
+    "Soğuk": "#9ae0f7",
+    "Hayalet Küresi": "#dbd993",
+    "Yazı": "#4d8ce3",
+    "Ruh Telsizi": "#d18c5e", 
 }
 
 evi_icons = {
     "EMF 5": "imgs/emf5-icon.png",
-    "DOTs": "imgs/dots-icon.png",
-    "Ultraviolet": "imgs/fingerprints-icon.png",
-    "Freezing": "imgs/freezing-icon.png",
-    "Ghost Orbs": "imgs/orbs-icon.png",
-    "Writing": "imgs/writing-icon.png",
-    "Spirit Box": "imgs/spirit-box-icon.png", 
+    "DOTS": "imgs/dots-icon.png",
+    "Ultraviyole": "imgs/fingerprints-icon.png",
+    "Soğuk": "imgs/freezing-icon.png",
+    "Hayalet Küresi": "imgs/orbs-icon.png",
+    "Yazı": "imgs/writing-icon.png",
+    "Ruh Telsizi": "imgs/spirit-box-icon.png", 
 }
 
 behavior_titles = {
-    "<Tells>":"<div class='dtitle'><i>Tells</i><div class='ddash'></div></div>",
-    "<Behaviors>":"<div class='dtitle'><i>Behaviors</i><div class='ddash'></div></div>",
-    "<Hunt Sanity>":"<div class='dtitle'><i>Hunt Sanity</i><div class='ddash'></div></div>",
-    "<Hunt Speed>":"<div class='dtitle'><i>Hunt Speed</i><div class='ddash'></div></div>",
-    "<Evidence>":"<div class='dtitle'><i>Evidence</i><div class='ddash'></div></div>"
+    "<Tells>":"<div class='dtitle'><i>İpucu</i><div class='ddash'></div></div>",
+    "<Behavior>":"<div class='dtitle'><i>Davranış</i><div class='ddash'></div></div>",
+    "<Hunt Sanity>":"<div class='dtitle'><i>Av Akıl Sağlığı</i><div class='ddash'></div></div>",
+    "<Hunt Speed>":"<div class='dtitle'><i>Av Hızı</i><div class='ddash'></div></div>",
+    "<Evidence>":"<div class='dtitle'><i>Kanıt</i><div class='ddash'></div></div>"
 }
 
 class Ghost {
