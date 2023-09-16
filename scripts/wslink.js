@@ -113,14 +113,14 @@ function link_room(){
                     toggle_cooldown_timer()
                 }
                 if (incoming_state['action'].toUpperCase() == "CHANGE"){
-                    document.getElementById("room_id_note").innerText = `DURUM: Bağlı (${incoming_state['oyuncu']})` //Changed player to oyuncu as well
+                    document.getElementById("room_id_note").innerText = `DURUM: Bağlı (${incoming_state['players']})`
                 }
                 return
             }
 
             if (incoming_state.hasOwnProperty("error")){
                 console.log(incoming_state)
-                document.getElementById("room_id_note").innerText = `HATA: ${incoming_state['hatası']}!`
+                document.getElementById("room_id_note").innerText = `HATA: ${incoming_state['error']}!`
                 document.getElementById("settings_status").className = "error"
                 if (incoming_state.hasOwnProperty("disconnect") && incoming_state['disconnect']){
                     disconnect_room(false,true)
@@ -235,7 +235,7 @@ function link_link(){
             }
 
             if (incoming_state.hasOwnProperty("error")){
-                document.getElementById("link_id_note").innerText = `HATA: ${incoming_state['hatası']}!`
+                document.getElementById("link_id_note").innerText = `HATA: ${incoming_state['error']}!`
                 document.getElementById("dllink_status").className = "error"
             }
 
