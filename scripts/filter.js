@@ -1,15 +1,15 @@
 function getCookie(e){let t=e+"=",i=decodeURIComponent(document.cookie).split(";");for(let n=0;n<i.length;n++){let o=i[n];for(;" "==o.charAt(0);)o=o.substring(1);if(0==o.indexOf(t))return o.substring(t.length,o.length)}return""}
 function setCookie(e,t,i){let n=new Date;n.setTime(n.getTime()+864e5*i);let o="expires="+n.toUTCString();document.cookie=e+"="+t+";"+o+";path=/"}
 
-const all_evidence = ["DOTs","EMF 5","Ultraviolet","Freezing","Ghost Orbs","Writing","Spirit Box"]
-//const all_evidence = ["DOTS","EMF 5","Ultraviyole","Soğuk","Hayalet Küresi","Yazı","Ruh Telsizi"] //Turkish Translation
+//const all_evidence = ["DOTs","EMF 5","Ultraviolet","Freezing","Ghost Orbs","Writing","Spirit Box"]
+const all_evidence = ["DOTS","EMF 5","Ultraviyole","Soğuk","Hayalet Küresi","Yazı","Ruh Telsizi"] //Turkish Translation
 const all_ghosts = ["Spirit","Wraith","Phantom","Poltergeist","Banshee","Jinn","Mare","Revenant","Shade","Demon","Yurei","Oni","Yokai","Hantu","Goryo","Myling","Onryo","The Twins","Raiju","Obake","The Mimic","Moroi","Deogen","Thaye"]
-const all_speed = ["Slow","Normal","Fast"]
-//const all_speed = ["Yavaş","Normal","Hızlı"] //Turkish Translation
-const all_sanity = ["Late","Average","Early","VeryEarly"]
-//const all_sanity = ["Geç","Ortalama","Erken","ÇokErken"] //Turkish Translation
+//const all_speed = ["Slow","Normal","Fast"]
+const all_speed = ["Yavaş","Normal","Hızlı"] //Turkish Translation
+//const all_sanity = ["Late","Average","Early","VeryEarly"]
+const all_sanity = ["Geç","Ortalama","Erken","ÇokErken"] //Turkish Translation
 
-var state = {"evidence":{},"speed":{"Slow":0,"Normal":0,"Fast":0},"sanity":{"Late":0,"Average":0,"Early":0,"VeryEarly":0},"ghosts":{}}
+var state = {"evidence":{},"speed":{"Yavaş":0,"Normal":0,"Hızlı":0},"sanity":{"Geç":0,"Ortalama":0,"Erken":0,"ÇokErken":0},"ghosts":{}}
 var user_settings = {"num_evidences":3,"ghost_modifier":2,"volume":50,"offset":0,"sound_type":0,"speed_logic_type":0,"bpm":0}
 
 let znid = getCookie("znid")
@@ -200,11 +200,11 @@ function remove(elem,ignore_link=false){
 
 function filter(ignore_link=false){
     state["evidence"] = {}
-    state["speed"] = {"Slow":0,"Normal":0,"Fast":0}
+    state["speed"] = {"Yavaş":0,"Normal":0,"Hızlı":0}
     for (var i = 0; i < all_evidence.length; i++){
         state["evidence"][all_evidence[i]] = 0
     }
-    state["sanity"] = {"Late":0,"Average":0,"Early":0,"VeryEarly":0}
+    state["sanity"] = {"Geç":0,"Ortalama":0,"Erken":0,"ÇokErken":0}
 
     // Get values of checkboxes
     var base_speed = 1.7;
@@ -213,7 +213,7 @@ function filter(ignore_link=false){
     var not_evi_array = [];
     var spe_array = [];
     var san_array = [];
-    var san_lookup = {"Late":0,"Average":40,"Early":50,"VeryEarly":75}
+    var san_lookup = {"Geç":0,"Ortalama":40,"Erken":50,"ÇokErken":75}
     var monkey_evi = ""
     if (document.querySelectorAll('[name="evidence"] .monkey-disabled').length > 0)
         monkey_evi = document.querySelectorAll('[name="evidence"] .monkey-disabled')[0].parentElement.value;
@@ -292,10 +292,10 @@ function filter(ignore_link=false){
             parseInt(ghosts[i].getElementsByClassName("ghost_hunt_high")[0].textContent)
         ]
         if (name == "The Mimic"){
-            evidence.push("Ghost Orbs")
+            evidence.push("Hayalet Küresi")
             mimic_evi = evidence
-            nm_evidence = "Ghost Orbs"
-            mimic_nm_evi = "Ghost Orbs"
+            nm_evidence = "Hayalet Küresi"
+            mimic_nm_evi = "Hayalet Küresi"
         }
 
         //Check for monkey paw filter
@@ -436,13 +436,13 @@ function filter(ignore_link=false){
 
             spe_array.forEach(function (item,index){
 
-                if (item == "Slow"){
+                if (item == "Yavaş"){
                     skeep = true
                 }
                 else if (item == "Normal"){
                     nkeep = true
                 }
-                else if (item == "Fast"){
+                else if (item == "Hızlı"){
                     fkeep = true
                 }
             });
@@ -465,7 +465,7 @@ function filter(ignore_link=false){
         // Check if speed is being kept
         if (keep){
             if(min_speed < base_speed || name == "The Mimic"){
-                keep_speed.add('Slow')
+                keep_speed.add('Yavaş')
             }
             if ((speed_type == "range" && min_speed <= base_speed && base_speed <= max_speed) || name == "The Mimic"){
                 keep_speed.add('Normal')
@@ -474,20 +474,20 @@ function filter(ignore_link=false){
                 keep_speed.add('Normal')
             }
             if(max_speed > base_speed || name == "The Mimic"){
-                keep_speed.add('Fast')
+                keep_speed.add('Hızlı')
             }
 
-            if(sanity[0] > san_lookup['Late'] || sanity[1] > san_lookup['Late']){
-                keep_sanity.add('Late')
+            if(sanity[0] > san_lookup['Geç'] || sanity[1] > san_lookup['Geç']){
+                keep_sanity.add('Geç')
             }
-            if(sanity[0] > san_lookup['Average'] || sanity[1] > san_lookup['Average']){
-                keep_sanity.add('Average')
+            if(sanity[0] > san_lookup['Ortalama'] || sanity[1] > san_lookup['Ortalama']){
+                keep_sanity.add('Ortalama')
             }
-            if(sanity[0] > san_lookup['Early'] || sanity[1] > san_lookup['Early']){
-                keep_sanity.add('Early')
+            if(sanity[0] > san_lookup['Erken'] || sanity[1] > san_lookup['Erken']){
+                keep_sanity.add('Erken')
             }
-            if(sanity[0] > san_lookup['VeryEarly'] || sanity[1] > san_lookup['VeryEarly']){
-                keep_sanity.add('VeryEarly')
+            if(sanity[0] > san_lookup['ÇokErken'] || sanity[1] > san_lookup['ÇokErken']){
+                keep_sanity.add('ÇokErken')
             }
         }
 
@@ -620,7 +620,7 @@ function filter(ignore_link=false){
     }
 
     else if (num_evidences == "0"){
-        all_evidence.filter(evi => evi != 'Ghost Orbs').forEach(function(item){
+        all_evidence.filter(evi => evi != 'Hayalet Küresi').forEach(function(item){
             var checkbox = document.getElementById(item);
             $(checkbox).addClass("block")
             $(checkbox).find("#checkbox").removeClass(["good","bad"])
@@ -750,7 +750,7 @@ function showMaps(){
 function flashMode(){
     var cur_evidence = parseInt(document.getElementById("num_evidence").value)
     var mode_text = ["Kıyamet","Cinnet","Kâbus","Profesyonel"][cur_evidence]
-    document.getElementById("game_mode").innerHTML = `${mode_text}<span>(${cur_evidence} evidence)</span>`
+    document.getElementById("game_mode").innerHTML = `${mode_text}<span>(${cur_evidence} kanıt)</span>`
     $("#game_mode").fadeIn(500,function () {
         $("#game_mode").delay(500).fadeOut(500);
       });

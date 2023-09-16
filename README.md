@@ -1,6 +1,6 @@
-# Unofficial Phasmo Cheat Sheet (template)
+# Unofficial Phasmo Cheat Sheet (Turkish Translation)
 
-A client facing web-app guide for the horror video game Phasmophobia. This repo is intended to be forked and translated into other languages.
+A client facing web-app guide for the horror video game Phasmophobia. This repo has been translated from English to Turkish by Vito.
 
 In order to make this version work with other languages, the following features from the original have been removed:
 - Discord Link
@@ -28,3 +28,4 @@ NOTE: By using this code, you agree to not use any included, external URLs prese
 With the exception of:  
 JQuery - MIT License  
 October Crow Font - Custom License
+Caveat Font - Custom License

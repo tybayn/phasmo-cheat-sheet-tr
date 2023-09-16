@@ -1,6 +1,6 @@
 let ws = null
 let dlws = null
-const lang = "en"
+const lang = "tr"
 
 function auto_link(){
     var room_id = getCookie("room_id")
