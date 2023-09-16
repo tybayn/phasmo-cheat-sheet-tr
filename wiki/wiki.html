@@ -1,8 +1,8 @@
-<div class="wiki_title accordian" onclick="accordian(this)">Hunts</div>
+<div class="wiki_title accordian" onclick="accordian(this)">Av</div>
 <div class="wiki_details" style="height: 0px;">
-    <h3>Flickering</h3>
-    <div class="text">During a hunt, ghosts will flicker in and out of existance, alternating between visible and invisible multiple times every few seconds. There are a couple of ghosts that can be identified by their flickering during a hunt: (1) an Oni will be more visible during a hunt and (2) the Phantom will be invisible for longer periods of time.</div>
-    <div class="text">Below you can see examples of the flicker timing of Phantom, Oni, and all other ghosts.</div>
+    <h3>Görünürlük</h3>
+    <div class="text">Av sırasında hayaletler her birkaç saniyede bir görünürlüklerini değiştirerek var olup yok olacaklardır. Av sırasındaki görünürlüklerinden tanınabilen birkaç hayalet vardır: (1) Oni av sırasında daha görünür olacaktır ve (2) Phantom daha uzun süre görünmez olacaktır.</div>
+    <div class="text">Aşağıda Oni, Phantom ve diğer hayaletlerin görünürlüklerinin nasıl olduğunu görebilirsiniz.</div>
     <div class="wiki-flex">
         <div id="phantom-flicker" class="wiki-img-block">
             <div id="flicker-ghost-name">Phantom</div>
@@ -26,186 +26,435 @@
 
 </div>
 
-<div class="wiki_title accordian" onclick="accordian(this)">Monkey Paw</div>
+<div class="wiki_title accordian" onclick="accordian(this)">Maymun Pençesi</div>
 <div class="wiki_details" style="height: 0px;">
-    <h3>Wishes</h3>
+    <h3>Dilekler</h3>
     <div class="text">
-        <b>"I wish to see the ghost"</b>
+        <b>"Hayaleti görmeyi diliyorum"</b>
         <ul>
-            <li>Pro: Ghost appears in front of the player as an event</li>
-            <li>Con: After the event, a hunt will start and player vision is darkened for the duration of the event and hunt</li>
+            <li>Artısı: Hayalet, oyuncunun önünde etkinlik olarak belirir</li>
+            <li>Eksisi: Etkinlikten sonra hayalet bir av başlatır ve bu av ile etkinlik süresi boyunca oyuncunun görüşü kararır</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish for activity"</b>
+        <b>"Aktivite diliyorum"</b>
         <ul>
-            <li>Pro: Doubles all ghost activity for 2 min</li>
-            <li>Con: Breaker set to broken and front door locked for 2 min</li>
+            <li>Artısı: 2 dakika boyunca tüm hayalet aktivitelerini iki katına çıkarır</li>
+            <li>Eksisi: Sigorta bozulur ve 2 dakika boyunca çıkış kapısı kilitlenir</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish for sanity"</b>
+        <b>"Akıl sağlığı diliyorum"</b>
         <ul>
-            <li>Pro: Averages everyone's sanity to 50%</li>
-            <li>Con: Sets ghost's favorite room to a random room and increases current sanity drain by 50%</li>
+            <li>Artısı: Herkesin akıl sağlığını ortalama %50'ye çeker</li>
+            <li>Eksisi: Hayaletin favori odasının yerini değiştirir ve akıl sağlığı düşürme miktarını %50 artırır</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish the ghost was trapped"</b>
+        <b>"Hayaleti kapana kıstırmayı diliyorum"</b>
         <ul>
-            <li>Pro: Ghost locked in its room for 1 min where it cannot hunt, roam, or do abilities</li>
-            <li>Con: Locks doors in the players room and hunt starts after the 1 min period (25% doors will unlock after grace period)</li>
+            <li>Artısı: Hayaleti 1 dakikalığına odasına kilitler ve oradan dışarı gezemez, av başlatamaz ve özelliğini kullanamaz</li>
+            <li>Eksisi: Oyuncunun bulunduğu odada kapıları kilitler ve 1 dakika sonra av başlatır (25% ihtimalle hazırlık süresinde kapılar açılır)</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish for life"</b>
+        <b>"Yaşam diliyorum"</b>
         <ul>
-            <li>Pro: Revive a dead player</li>
-            <li>Con: 50% chance that the wishing player will die</li>
+            <li>Artısı: Ölü bir oyuncuyu canlandırır</li>
+            <li>Eksisi: 50% ihtimalle dilek dileyen oyuncu ölür</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish to be safe"</b>
+        <b>"Güvende olmayı diliyorum"</b>
         <ul>
-            <li>Pro: Unblocks the nearest blocked hiding spot</li>
-            <li>Con: Breaks the light in that room and ghost is able to sense or hear the player from any distance</li>
+            <li>Artısı: En yakındaki kapalı saklanma alanını açar</li>
+            <li>Eksisi: O odadaki ışıkları patlatır ve hayalet oyuncuyu her mesafeden duyabilir ve hissedebilir</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish to leave"</b>
+        <b>"Gitmeyi diliyorum"</b>
         <ul>
-            <li>Pro: Unlocks all exit doors (works during hunts)</li>
-            <li>Con: Player slowness and darkened vision for 5 secs</li>
+            <li>Artısı: Tüm çıkış kapılarını açar (av sırasında da çalışır)</li>
+            <li>Eksisi: Oyuncu 5 saniyeliğine yavaşlar ve görüşü kararır</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish for knowledge"</b>
+        <b>"Bilgi diliyorum"</b>
         <ul>
-            <li>Pro: Removes 1 incorrect evidence from the journal and crosses out associated ghosts</li>
-            <li>Con: Starts a hunt and player vision and audio is reduced the rest of that round</li>
+            <li>Artısı: Günlükte yanlış olan 1 kanıtın ve o kanıta sahip tüm hayaletlerin üstünü çizer</li>
+            <li>Eksisi: Av başlatır ve oyun bitene dek karakterin görüşüyle duyusu azalır</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish for [weather]"</b>
+        <b>"[hava] diliyorum"</b>
         <ul>
-            <li>Pro: Changes the weather to the one specified</li>
-            <li>Con: Drops sanity by 25%</li>
+            <li>Artısı: Hava durumunu istenilene değiştirir</li>
+            <li>Eksisi: Akıl sağlığını 25% azaltır</li>
         </ul>
     </div>
     <div class="text">
-        <b>"I wish for anything"</b>
+        <b>"Herhangi bir şey diliyorum"</b>
         <ul>
-            <li>Randomly chooses one of the above wishes</li>
+            <li>Yukarıdaki dileklerden bir tanesini rastgele seçer</li>
         </ul>
     </div>
 </div>
 
-<div class="wiki_title accordian" onclick="accordian(this)">Oujia Board</div>
+<div class="wiki_title accordian" onclick="accordian(this)">Oujia Tahtası</div>
 <div class="wiki_details" style="height: 0px;">
-    <h3>Questions</h3>
+    <h3>Sorular</h3>
     <div class="text">
-        <b>"Where are you?"</b>
+        <b>"Neredesin?"</b>
         <ul>
-            <li>Sanity Cost: 50%</li>
-            <li>Gives the current room of the ghost (not the favorite room)</li>
+            <li>Akıl Sağlığı Tutarı: %50</li>
+            <li>Hayaletin mevcut konumunu verir (favori odasını değil)</li>
         </ul>
     </div>
     <div class="text">
-        <b>Are you here? / Are you close?"</b>
+        <b>Burada mısın? / Yakında mısın?"</b>
         <ul>
-            <li>Sanity Cost: 20%</li>
-            <li>Tells if the ghost is in the same room as the player</li>
+            <li>Akıl Sağlığı Tutarı: 20%</li>
+            <li>Hayaletin oyuncu ile aynı odada olup olmadığını söyler</li>
         </ul>
     </div>
     <div class="text">
-        <b>"Where is the bone?"</b>
+        <b>"Kemik nerede?"</b>
         <ul>
-            <li>Sanity Cost: 50%</li>
-            <li>Gives the room of the bone</li>
+            <li>Akıl Sağlığı Tutarı: 50%</li>
+            <li>Kemiğin olduğu odayı söyler</li>
         </ul>
     </div>
     <div class="text">
-        <b>"Hide and seek?"</b>
+        <b>"Saklambaç?"</b>
         <ul>
-            <li>Sanity Cost: 0% (breaks board)</li>
-            <li>Counts down from 5 and starts a hunt</li>
+            <li>Akıl Sağlığı Tutarı: 0% (tahtayı kırar)</li>
+            <li>5'ten geriye sayar ve av başlatır</li>
         </ul>
     </div>
     <div class="text">
-        <b>"Do you respond to everyone?"</b>
+        <b>"Herkese cevap veriyor musun?"</b>
         <ul>
-            <li>Sanity Cost: 20%</li>
-            <li>Replies with if the ghosts wants to be alone when using the spirit box</li>
+            <li>Akıl Sağlığı Tutarı: 20%</li>
+            <li>Ruh telsizinde herkese mi yoksa yalnızlara mı cevap verdiğini söyler</li>
         </ul>
     </div>
     <div class="text">
-        <b>"How old are you?"</b>
+        <b>"Kaç yaşındasın?"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
-            <li>Returns the current age of the ghost. If the number changes, the ghost is a Thaye</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
+            <li>Hayaletin mevcut yaşını söyler. Eğer yaş değişiyorsa hayalet Thaye'dir</li>
         </ul>
     </div>
     <div class="text">
-        <b>"When did you die?"</b>
+        <b>"Ne zaman öldün?"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
-            <li>Returns a random number</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
+            <li>Rastgele bir sayı verir</li>
         </ul>
     </div>
     <div class="text">
-        <b>"What is my sanity?"</b>
+        <b>"Akıl sağlığım ne?"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
-            <li>'Healthy' (Sanity > 80%), 'Good' (60-80%), 'Average' (40-60%), 'Bad' (20-40%), 'Awful' (&lt;20%)</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
+            <li>'Healthy' (Akıl Sağlığı > %80), 'Good' (%60-80), 'Average' (40-60%), 'Bad' (%20-40), 'Awful' (&lt;%20)</li>
         </ul>
     </div>
     <div class="text">
-        <b>"How insane am I?"</b>
+        <b>"Ne kadar deliyim?"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
-            <li>'Not Very' (Sanity > 50%), 'Very' (25-50%), 'Insane' (&lt;25%)</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
+            <li>'Not Very' (Akıl Sağlığı > %50), 'Very' (%25-50), 'Insane' (&lt;%25)</li>
         </ul>
     </div>
     <div class="text">
-        <b>"Am I insane?"</b>
+        <b>"Deli miyim?"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
-            <li>'No' (Sanity > 90%), 'Maybe' (20-90%), 'Yes' (&lt;20%)</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
+            <li>'No' (Akıl Sağlığı > %90), 'Maybe' (%20-90), 'Yes' (&lt;%20)</li>
         </ul>
     </div>
     <div class="text">
-        <b>"How did you die?"</b>
+        <b>"Nasıl öldün?"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
-            <li>Returns the ghost's cause of death</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
+            <li>Hayaletin ölüm sebebini söyler</li>
         </ul>
     </div>
     <div class="text">
-        <b>"How do you feel?"</b>
+        <b>"Nasıl hissediyorsun?"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
-            <li>Returns a randomly selected emotion</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
+            <li>Rastgele bir duygu söyler</li>
         </ul>
     </div>
     <div class="text">
-        <b>"Why are you here?"</b>
+        <b>"Neden buradasın?"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
-            <li>Returns a randomly selected reason</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
+            <li>Rastgele bir sebep söyler</li>
         </ul>
     </div>
     <div class="text">
         <b>"Knock Knock"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
             <li>"Whos there"</li>
         </ul>
     </div>
     <div class="text">
         <b>"Marco"</b>
         <ul>
-            <li>Sanity Cost: 5%</li>
+            <li>Akıl Sağlığı Tutarı: 5%</li>
             <li>"Polo"</li>
+        </ul>
+    </div>
+</div>
+
+<div class="wiki_title accordian" onclick="accordian(this)">Ruh Telsizi</div>
+<div class="wiki_details" style="height: 0px;">
+    <div class="text">
+        <b>Agresif Sorular:</b><br>
+        <p>Aşağıdaki soruları sorarak rastgele bir "agresif" yanıt alabilirsiniz</p>
+        <ul>
+            <li>"Arkadaş canlısı mısın?"</li>
+            <li>"Neden buradasın?"</li>
+            <li>"Kızgın mısın?"</li>
+            <li>"Gitmemizi istiyor musun?"</li>
+            <li>"Ne istiyorsun?"</li>
+            <li>"Tehlikeli misin?"</li>
+        </ul>
+        Yanıtlar:
+        <ul>
+            <li>"Kill", "Death", "Die", "Hate", "Hurt", "Attack"</li>
+        </ul>
+    </div>
+    <div class="text">
+        <b>Konum Soruları:</b><br>
+        <p>Aşağıdaki soruları sorarak hayalete yakın olup olmadığınızı ve aynı odada olup olmadığınızı öğrenebilirsiniz</p>
+        <ul>
+            <li>"Neredesin?"</li>
+            <li>"Yakında mısın?"</li>
+            <li>"Bana bir işaret ver."</li>
+            <li>"Burada mısın?"</li>
+            <li>"Orada birisi var mı?"</li>
+            <li>"Konumun neresi?"</li>
+        </ul>
+        Yanıtlar:
+        <ul>
+            <li>3 metre yakınındaysa:<br>"(I'm) here", "I'm close", "(I'm) behind you"</li>
+            <li>Aynı odada fakat 3 metreden uzaksa:<br>"Next to you", "Away", "Far"</li>
+        </ul>
+    </div>
+    <div class="text">
+        <b>Yaş Soruları:</b><br>
+        <p>Aşağıdaki soruları sorarak hayaletin yaşı hakkında bilgi alabilirsiniz(hayalet modeli ile bir bağlantısı yoktur)</p>
+        <ul>
+            <li>"Kaç yaşındasın?"</li>
+            <li>"Ne kadar gençsin?"</li>
+            <li>"Yaşın kaç?"</li>
+            <li>"Yaşlı mısın?"</li>
+        </ul>
+        Yanıtlar:
+        <ul>
+            <li>"Old", "Young"</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Tarot Card Wiki Contributed by svenjaun (2023-09-07) -->
+<div class="wiki_title accordian" onclick="accordian(this)">Tarot Kartları</div>
+<div class="wiki_details" style="height: 0px;">
+    <h3>Tarot Kartları</h3>
+    <div class="text">Tarot kartlarını elinize alabilir ve tek seferde bir kart çekebilirsiniz.</div>
+    <div class="text">Her tarot destesi rastgele 10 karttan oluşur.</div>
+    <br />
+    <hr>
+
+    <div class="text">
+        <p><b>The Tower</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/tower.webp">
+        <p>Bir etkileşim sağlar ve hayalet etkinliğini 20 saniyeliğine iki katına çıkarır.</p>
+        <ul class="text">
+            <li>%20 Çekme Şansı</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>The Wheel of Fortune</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/wheeloffortune.webp">
+        <p>Kartı çeken oyuncunun akıl sağlığını kartın yanma rengine göre etkiler.</p>
+        <p>
+            <span class="square green"></span>Yeşil yanarsa: %25 Akıl sağlığı kazanır
+            <br>
+            <span class="square red"></span>Kırmızı yanarsa: %25 Akıl sağlığı kaybeder
+        </p>
+        <ul class="text">
+            <li>%20 Çekme Şansı</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>The Fool</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/fool.webp">
+        <p>Bu kartı çekmek herhangi bir etki uygulamaz.</p>
+        <p class="smaller-text">Rastgele bir kartın görünümünü kopyalar ve daha sonra yanarken The Fool görünümüne geri döner.</p>
+        <ul class="text">
+            <li>%17 Çekme Şansı</li>
+            <li>(Av sırasında %100)</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>The Devil</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/devil.webp">
+        <p>Hayalete en yakın olan oyuncuya hayalet etkinliği tetikler.</p>
+        <ul class="text">
+            <li>%10 Çekme Şansı</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>Death</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/death.webp">
+        <p>Lanetli av tetikler.</p>
+        <ul class="text">
+            <li>%10 Çekme Şansı</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>The Hermit</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/hermit.webp">
+        <p>Hayaleti odasına geri ışınlar ve onu oraya 1 dakika boyunca hapseder. </p>
+        <p class="smaller-text">Bu, av veya hayalet etkinliği durumlarını etkilemez.</p>
+        <ul class="text">
+            <li>%10 Çekme Şansı</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>The Sun</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/sun.webp">
+        <p>Bu kartı çeken oyuncunun akıl sağlığı %100'e artar.</p>
+        <ul class="text">
+            <li>%5 Çekme Şansı</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>The Moon</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/moon.webp">
+        <p>Bu kartı çeken oyuncunun akıl sağlığı %0'a düşer.</p>
+        <ul class="text">
+            <li>%5 Çekme Şansı</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>The High Priestess</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/highpriestess.webp">
+        <p>Ölü olan rastgele bir oyuncuyu cesedinin konumunda tekrar canlandırır. </p>
+        <p class="smaller-text">Eğer henüz kimse ölmemişse, daha sonra ölen ilk kişiyi canlandırır. Bu etkiler birikmez.<br>(Oyuncu aynı av içerisinde iki kez ölemez)</p>
+        <ul class="text">
+            <li>%2 Çekme Şansı</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="text">
+        <p><b>The Hanged Man</b></p>
+        <img class="tarot-img" src="https://zero-network.net/phasmophobia/static/imgs/tarot/hangedman.webp">
+        <p>Oyuncuyu anında öldürür.<br></p>
+        <p class="smaller-text">Eğer 'Arkadaşçıl Hayalet' özelliği etkinse bu kart her zaman "The Fool" kartına dönüşür.</p>
+        <ul class="text">
+            <li>%1 Çekme Şansı</li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="wiki_title accordian" onclick="accordian(this)">XP Kasma Yöntemi</div>
+<div class="wiki_details" style="height: 0px;">
+    <div class="text">
+        <p><b>Güncel Strateji: x12.97 WoodWind</b></p>
+        <p><b>Strateji:</b></p>
+        <p>
+            Bu stratejinin amacı, bir av boyunca hayatta kalmaya yetecek kadar uzun süre içeride kalmak 
+            (eğer deneme sayısından ziyade doğruluğa değer veriyorsanız 2) ve oradan ayrılmaktır.
+            Av sırasında hayaletin davranışını iyi anlamak ve hayaleti bir yerin etrafında döndürebilme becerisini gerektirir. 
+            Bu strateji ideal olarak 2'den fazla oyuncuyla yapılır ancak tek kişilik oyunda yapmak da mümkün.
+        </p>
+        <p>
+            Ekipman listenize en azından tütsü (Tercihen kademe 1 çünkü hayaletin yavaşlayıp yakında kalmasından ziyade uzaklaşıp gitmesi daha iyi), tutuşturucu,
+            tuz(tercihden kademe 2 veya 3) ve hayaletin Raiju olup olmadığını test etmek için bir elektronik alet ekleyin(Yan görev gelirse bitirebilmek için genellikle EMF ya da Parabolik Mikrofon tercih ediyorum).
+        </p>
+        <p>
+            (Tek Oyunculu) Başlangıç olarak elektronik aleti alın ve çalıştırdıktan sonra direkt kapıdan içeri atın(bu, hayaletin Raiju olup olmadığını anlamak için işinize yarayacaktır).
+            Daha sonra tuz, tutuşturucu ve tütsü alın.<br>
+            <br>
+            (Çok Oyunculu) Bir oyuncu tutuşturucu ve iki tütsü alırken diğer oyuncu de tuz, elektronik alet(hayaletin Raiju olup olmadığını anlamak için ve/veya diğer görevleri yapabilmek için) ve diğer 
+            görevleri bitirebilmek için gereken ne varsa onu alabilir.
+            <br>
+            <br>
+            Hemen kapının girişindeki piknik masalarına ya da ortadaki kamp alanına doğru gidin. Tuzu, hayaletin geçme ihtimali olan bir bölgeye yerleştirin(Kamp alanına girişteki alan ya da iki piknik masasının arasına). Sonra da hayaletin av başlatmasını bekleyin.<br>
+            <br>
+            Hayalet ava başladığı zaman hareketlerinden yola çıkarak hangi hayalet olduğunu anlamaya çalışın(ayak sesi hızı, görünürlük oranı, elektronik aletlerin yakınındaki hızı, ağzından soğuk hava buharı vs).
+            Hayaleti kamp alanının ya da piknik masasının etrafında döndürmeye devam edin ve eğer gerekli olursa tütsü yakın.<br>
+            <br>
+            Av bittikten sonra tütsü sayacı tutarak hayaletin spirit ya da demon olup olmadığını anlamaya çalışabilir(bu biraz zaman alır fakat diğer görevleri bitirmek için zaman sağlamış olur) ya da direkt tahmin edip bitirebilirsiniz. Bütün bu süreç düzgün yapılırsa 2 dakikadan kısa sürede bitirilebilir ve hayaleti doğru tahmin edip yan görevleri de bitirirseniz 2000xp - 5000xp arası kazandırır.
+        </p>
+    </div>
+    <div class="text">
+        <p><b><u>Özel Zorluk Ayarları:</u></b></p>
+        <b>Oyuncu:</b>
+        <ul>
+            <li>Başlangıç akıl sağlığı: 0</li>
+            <li>Akıl sağlığı yenilemesi (%): 0</li>
+            <li>Akıl sağlığı yüketme hızı (%): 200</li>
+            <li>Koşma: Kapalı</li>
+            <li>Oyuncu hızı (%): 100</li>
+            <li>El fenerleri: Kapalı</li>
+            <li>Eşyaları ve tüketilebilir eşyaları kaybet: Açık</li>
+        </ul>
+        <b>Hayalet:</b>
+        <ul>
+            <li>Hayalet hızı (%): 100</li>
+            <li>Gezinme sıklığı: Yüksek</li>
+            <li>Favori oda değiştirme: Yüksek</li>
+            <li>Etkileşim miktarı: Düşük</li>
+            <li>Olay sıklığı: Düşük</li>
+            <li>Arkadaşçıl hayalet: Kapalı</li>
+            <li>Merhamet süresi (s): 0</li>
+            <li>Av süresi (s): Orta</li>
+            <li>Verilen kanıt: 0</li>
+        </ul>
+        <b>Kontrat:</b>
+        <ul>
+            <li>Plan süresi (s): 0</li>
+            <li>Hava: Rüzgarlı</li>
+            <li>Kapılar açık başlar: Yüksek</li>
+            <li>Saklanma yerleri: Hiçbiri</li>
+            <li>Akıl sağlığı monitörü: Kapalı</li>
+            <li>Aktivite monitörü: Kapalı</li>
+            <li>Kontrat başlangıcında sigorta kutusu: Arızalı</li>
+            <li>Haritada sigorta kutusu görünür: Kapalı</li>
         </ul>
     </div>
 </div>
