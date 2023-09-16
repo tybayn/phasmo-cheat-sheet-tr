@@ -85,11 +85,11 @@ function link_room(){
         $("#room_id_create").hide()
         $("#room_id_link").hide()
         $("#room_id_disconnect").show()
-        document.getElementById("room_id_note").innerText = "STATUS: Connected"
+        document.getElementById("room_id_note").innerText = "DURUM: Bağlı"
         document.getElementById("settings_status").className = "connected"
     }
     ws.onerror = function(event){
-        document.getElementById("room_id_note").innerText = "ERROR: Could not connect!"
+        document.getElementById("room_id_note").innerText = "HATA: Bağlanılamadı!"
         document.getElementById("settings_status").className = "error"
         setCookie("room_id","",-1)
     }
@@ -113,14 +113,14 @@ function link_room(){
                     toggle_cooldown_timer()
                 }
                 if (incoming_state['action'].toUpperCase() == "CHANGE"){
-                    document.getElementById("room_id_note").innerText = `STATUS: Connected (${incoming_state['players']})`
+                    document.getElementById("room_id_note").innerText = `DURUM: Bağlı (${incoming_state['oyuncu']})` //Changed player to oyuncu as well
                 }
                 return
             }
 
             if (incoming_state.hasOwnProperty("error")){
                 console.log(incoming_state)
-                document.getElementById("room_id_note").innerText = `ERROR: ${incoming_state['error']}!`
+                document.getElementById("room_id_note").innerText = `HATA: ${incoming_state['hatası']}!`
                 document.getElementById("settings_status").className = "error"
                 if (incoming_state.hasOwnProperty("disconnect") && incoming_state['disconnect']){
                     disconnect_room(false,true)
@@ -193,11 +193,11 @@ function link_link(){
         hasDLLink = true;
         $("#link_id_create").hide()
         $("#link_id_disconnect").show()
-        document.getElementById("link_id_note").innerText = "STATUS: Awaiting Desktop Link"
+        document.getElementById("link_id_note").innerText = "DURUM: Masaüstü Bağlantısı Bekleniyor"
         document.getElementById("dllink_status").className = "pending"
     }
     dlws.onerror = function(event){
-        document.getElementById("link_id_note").innerText = "ERROR: Could not connect!"
+        document.getElementById("link_id_note").innerText = "HATA: Bağlanılamadı!"
         document.getElementById("dllink_status").className = "error"
         setCookie("link_id","",-1)
     }
@@ -215,7 +215,7 @@ function link_link(){
                     send_cooldown_timer()
                 }
                 if (incoming_state['action'].toUpperCase() == "LINKED"){
-                    document.getElementById("link_id_note").innerText = `STATUS: Linked`
+                    document.getElementById("link_id_note").innerText = `DURUM: Bağlandı`
                     document.getElementById("dllink_status").className = "connected"
                 }
                 if (incoming_state['action'].toUpperCase() == "UNLINKED"){
@@ -235,7 +235,7 @@ function link_link(){
             }
 
             if (incoming_state.hasOwnProperty("error")){
-                document.getElementById("link_id_note").innerText = `ERROR: ${incoming_state['error']}!`
+                document.getElementById("link_id_note").innerText = `HATA: ${incoming_state['hatası']}!`
                 document.getElementById("dllink_status").className = "error"
             }
 
@@ -262,7 +262,7 @@ function disconnect_room(reset=false,has_status=false){
         $("#room_id_link").show()
         $("#room_id_disconnect").hide()
         if(!has_status){
-            document.getElementById("room_id_note").innerText = "STATUS: Not connected"
+            document.getElementById("room_id_note").innerText = "DURUM: Bağlantı yok"
             document.getElementById("settings_status").className = null
         }
         setCookie("room_id","",-1)
@@ -278,7 +278,7 @@ function disconnect_link(reset=false,has_status=false){
         $("#link_id_create").show()
         $("#link_id_disconnect").hide()
         if(!has_status){
-            document.getElementById("link_id_note").innerText = "STATUS: Not linked"
+            document.getElementById("link_id_note").innerText = "DURUM: Bağlı değil"
             document.getElementById("dllink_status").className = null
         }
         setCookie("link_id","",-1)
