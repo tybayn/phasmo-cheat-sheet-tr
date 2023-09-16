@@ -288,8 +288,8 @@ function filter(ignore_link=false){
         var nm_evidence = ghosts[i].getElementsByClassName("ghost_nightmare_evidence")[0].textContent;
         var speed = ghosts[i].getElementsByClassName("ghost_speed")[0].textContent;
         var sanity = [
-            parseInt(ghosts[i].getElementsByClassName("ghost_hunt_low")[0].textContent),
-            parseInt(ghosts[i].getElementsByClassName("ghost_hunt_high")[0].textContent)
+            parseInt(ghosts[i].getElementsByClassName("ghost_hunt_low")[0].textContent.replace("%","")),
+            parseInt(ghosts[i].getElementsByClassName("ghost_hunt_high")[0].textContent.replace("%",""))
         ]
         if (name == "The Mimic"){
             evidence.push("Hayalet Küresi")

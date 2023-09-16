@@ -44,7 +44,7 @@ class Ghost {
         <div class="ghost_card" id="${data.ghost}">
                 <div class="ghost_name">${data.ghost}</div>
                 <div class="ghost_hunt_info">
-                    <div class="ghost_hunt ${parseInt(data.hunt_sanity) > 50 ?'high':parseInt(data.hunt_sanity) < 50 ? 'low':'average'}"><img src="imgs/sanity.png">${data.hunt_sanity}</div>
+                    <div class="ghost_hunt ${parseInt(data.hunt_sanity.replace("%","")) > 50 ?'high':parseInt(data.hunt_sanity.replace("%","")) < 50 ? 'low':'average'}"><img src="imgs/sanity.png">${data.hunt_sanity}</div>
                     <div class="ghost_speed">
                         <img src="imgs/footsteps.png">
                         <div class="ghost_speed_values">
