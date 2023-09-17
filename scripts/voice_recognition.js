@@ -30,8 +30,6 @@ function reset_voice_status(){
 function parse_speech(vtext){
     vtext = vtext.toLowerCase().trim()
 
-    console.log(`DEBUG: ${vtext}`)
-
     // Overall common replacments
     if(vtext.startsWith('hayalet hızı')){
         document.getElementById("voice_recognition_status").className = null
