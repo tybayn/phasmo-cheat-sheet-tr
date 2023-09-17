@@ -38,7 +38,7 @@ function parse_speech(vtext){
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized ghost speed command")
         console.log(`Heard '${vtext}'`)
-        vtext = replace('hayalet hızı', "").trim()
+        vtext = vtext.replace('hayalet hızı', "").trim()
 
         vtext = vtext.replace('üç','3')
         vtext = vtext.replace('iki','2')
@@ -211,7 +211,7 @@ function parse_speech(vtext){
         var smallest_val = 100
         var vvalue = 1
 
-        if(vtext.vtext.startsWith('değil')){
+        if(vtext.startsWith('değil')){
             vtext = vtext.replace('değil ', "").trim()
             vvalue = 0
         }
@@ -238,7 +238,7 @@ function parse_speech(vtext){
     else if(vtext.startsWith('akıl sağlığı')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
-        console.log("Recognized speed command")
+        console.log("Recognized sanity command")
         console.log(`Heard '${vtext}'`)
         vtext = vtext.replace('akıl sağlığı', "").trim()
 
@@ -325,7 +325,7 @@ function parse_speech(vtext){
 
         reset_voice_status()
     }
-    else if(vtext.startsWith('menü değiş')){
+    else if(vtext.startsWith('menü değiş') || vtext.startsWith("menü deyiş")){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized filter/tool command")
