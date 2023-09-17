@@ -30,33 +30,20 @@ function reset_voice_status(){
 function parse_speech(vtext){
     vtext = vtext.toLowerCase().trim()
 
+    console.log(`DEBUG: ${vtext}`)
+
     // Overall common replacments
-    if(["goes to bake"].includes(vtext))
-        vtext = "ghost obake"
-    if(["ghost maroy","ghostman roy"].includes(vtext))
-        vtext = "ghost moroi"
-    if(["does not mimic"].includes(vtext))
-        vtext = "ghost not the mimic"
-    if(["go stay"].includes(vtext))
-        vtext = "ghost thaye"
-    if(["huntsman elite"].includes(vtext))
-        vtext = "sanity late"
-
-    vtext = vtext.replace("saturday","sanity").replace("insanity","sanity").replace("unsanity","sanity").replace("sandy","sanity")
-    vtext = vtext.replace("hunts","hunt")
-    vtext = vtext.replace("go speed","ghost speed")
-
-    if(vtext.startsWith('ghost speed') || vtext.startsWith('hayalet hızı')){
+    if(vtext.startsWith('hayalet hızı')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized ghost speed command")
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('ghost speed', "").replace('hayalet hızı', "").trim()
+        vtext = replace('hayalet hızı', "").trim()
 
-        vtext = vtext.replace('three','3')
-        vtext = vtext.replace('two','2').replace('to','2')
-        vtext = vtext.replace('one','1')
-        vtext = vtext.replace('zero','0')
+        vtext = vtext.replace('üç','3')
+        vtext = vtext.replace('iki','2')
+        vtext = vtext.replace('bir','1')
+        vtext = vtext.replace('sıfır','0')
 
         var smallest_num = '150'
         var smallest_val = 100
@@ -81,39 +68,34 @@ function parse_speech(vtext){
             send_state()
         }
     }
-    else if(vtext.startsWith('ghost') || vtext.startsWith('hayalet')){
+    else if(vtext.startsWith('hayalet')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized ghost command")
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('ghost', "").replace('hayalet', "").trim()
+        vtext = vtext.replace('hayalet', "").trim()
         var smallest_ghost = "Spirit"
         var smallest_val = 100
         var vvalue = 0
-        if(vtext.startsWith("not ") || vtext.startsWith("knot ") || vtext.startsWith('değil ')){
-            vtext = vtext.replace('not ', "").replace('knot ', "").replace('değil ', "").trim()
+        if(vtext.startsWith('değil ')){
+            vtext = vtext.replace('değil ', "").trim()
             vvalue = 0
         }
-        else if(vtext.startsWith("undo ") || vtext.startsWith("undue ") || vtext.startsWith("on do ") || vtext.startsWith("on due ") || vtext.startsWith("clear") || vtext.startsWith("temizle")){
-            vtext = vtext.replace('undo ', "").replace('undue ', "").replace("on do ","").replace("on due ","").replace("clear ","").replace("temizle ", "").trim()
+        else if(vtext.startsWith("temizle")){
+            vtext = vtext.replace("temizle ", "").trim()
             vvalue = 0
         }
-        else if(vtext.startsWith("select ") || vtext.startsWith("deselect ") || vtext.startsWith("seç ")){
-            vtext = vtext.replace('deselect ', "").replace('select ', "").replace('seç ', "").trim()
+        else if(vtext.startsWith("seç ") || vtext.startsWith("saç ")){
+            vtext = vtext.replace('seç ', "").replace('saç ', "").trim()
             vvalue = 2
         }
-        else if(vtext.startsWith("hide ") || vtext.startsWith("remove ") || vtext.startsWith("kaldır ")){
-            vtext = vtext.replace('hide ', "").replace('remove ', "").replace('kaldır ', "").trim()
+        else if(vtext.startsWith("kaldır ")){
+            vtext = vtext.replace('kaldır ', "").trim()
             vvalue = -1
         }
 
         // Common fixes to ghosts
         console.log(vtext)
-        if(["race"].includes(vtext)){vtext = "wraith"}
-        if(["ride you","rise you"].includes(vtext)){vtext = "raiju"}
-        if(["on to","onto","on 2"].includes(vtext)){vtext = "hantu"}
-        if(["awake","oh bake","oh backy"].includes(vtext)){vtext = "obake"}
-        if(["say","they","fe","fae","faye"].includes(vtext)){vtext = "thaye"}
         if(vtext.startsWith("twins")){vtext = "the twins"}
         if(vtext.startsWith("mimic")){vtext = "the mimic"}
 
@@ -138,44 +120,35 @@ function parse_speech(vtext){
         reset_voice_status()
 
     }
-    else if(vtext.startsWith('evidence') || vtext.startsWith('kanıt')){
+    else if(vtext.startsWith('kanıt')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized evidence command")
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('evidence', "").replace('kanıt', "").trim()
+        vtext = vtext.replace('kanıt', "").trim()
         var smallest_evidence = "emf 5"
         var smallest_val = 100
         var vvalue = 1
-        if(vtext.startsWith("not ") || vtext.startsWith("knot ") || vtext.startsWith("yok ") || vtext.startsWith("eksik ")){
-            vtext = vtext.replace('not ', "").replace('knot ', "").replace('yok ', "").replace('eksik ', "").trim()
+        if(vtext.startsWith("yok ") || vtext.startsWith("eksik ")){
+            vtext = vtext.replace('yok ', "").replace('eksik ', "").trim()
             vvalue = -1
         }
-        else if(vtext.startsWith("undo ") || vtext.startsWith("undue ") || vtext.startsWith("on do ") || vtext.startsWith("on due ") || vtext.startsWith("clear") || vtext.startsWith("kaldır")){
-            vtext = vtext.replace('undo ', "").replace('undue ', "").replace("on do ","").replace("on due ","").replace("clear ","").replace("kaldır ","").trim()
+        else if(vtext.startsWith("kaldır")){
+            vtext = vtext.replace("kaldır ","").trim()
             vvalue = 0
         }
 
-        // Common replacements for evidence names
-        vtext = vtext.replace("fingerprints", "ultraviolet")
-        vtext = vtext.replace("uv", "ultraviolet")
-        vtext = vtext.replace("be enough","emf5")
-        vtext = vtext.replace("thoughts","dots")
         //replacements for Turkish
-        vtext = vtext.replace("mor ışık", "ultraviolet")
-        vtext = vtext.replace("dot", "dots")
-        vtext = vtext.replace("dondurucu", "freezing")
-        vtext = vtext.replace("soğuk", "freezing")
-        vtext = vtext.replace("küre", "ghost orbs")
-        vtext = vtext.replace("hayalet küresi", "ghost orbs")
-        vtext = vtext.replace("hayalet yazısı", "writing")
-        vtext = vtext.replace("yazı", "writing")
-        vtext = vtext.replace("ruh telsizi", "spirit box")
-        vtext = vtext.replace("ruh", "spirit box")
-        vtext = vtext.replace("telsiz", "spirit box")
-        if(vtext.startsWith("orbs"))
-            vtext = "ghost orbs"
-
+        if(["mor ışık"].includes(vtext))
+            vtext = "ultraviyole"
+        if(["dondurucu"].includes(vtext))
+            vtext = "soğuk"
+        if(["küre","hayalet yazısı"].includes(vtext))
+            vtext = "hayalet küresi"
+        if(["hayalet yazısı"].includes(vtext))
+            vtext = "yazı"
+        if(["ruh","telsiz"].includes(vtext))
+            vtext = "ruh telsizi"
 
         for(var i = 0; i < all_evidence.length; i++){
             var leven_val = levenshtein_distance(all_evidence[i].toLowerCase(),vtext)
@@ -192,7 +165,7 @@ function parse_speech(vtext){
         reset_voice_status()
 
     }
-    else if(vtext.startsWith('monkey paw') || vtext.startsWith('maymun pençesi')){
+    else if(vtext.startsWith('maymun pençesi')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized evidence command")
@@ -202,26 +175,17 @@ function parse_speech(vtext){
         var smallest_val = 100
         var vvalue = 1
 
-        // Common replacements for evidence names
-        vtext = vtext.replace("fingerprints", "ultraviolet")
-        vtext = vtext.replace("uv", "ultraviolet")
-        vtext = vtext.replace("be enough","emf5")
-        vtext = vtext.replace("thoughts","dots")
         // Replacements for Turkish
-        vtext = vtext.replace("mor ışık", "ultraviolet")
-        vtext = vtext.replace("dot", "dots")
-        vtext = vtext.replace("dondurucu", "freezing")
-        vtext = vtext.replace("soğuk", "freezing")
-        vtext = vtext.replace("küre", "ghost orbs")
-        vtext = vtext.replace("hayalet küresi", "ghost orbs")
-        vtext = vtext.replace("hayalet yazısı", "writing")
-        vtext = vtext.replace("yazı", "writing")
-        vtext = vtext.replace("ruh telsizi", "spirit box")
-        vtext = vtext.replace("ruh", "spirit box")
-        vtext = vtext.replace("telsiz", "spirit box")
-        if(vtext.startsWith("orbs"))
-            vtext = "ghost orbs"
-
+        if(["mor ışık"].includes(vtext))
+            vtext = "ultraviyole"
+        if(["dondurucu"].includes(vtext))
+            vtext = "soğuk"
+        if(["küre","hayalet yazısı"].includes(vtext))
+            vtext = "hayalet küresi"
+        if(["hayalet yazısı"].includes(vtext))
+            vtext = "yazı"
+        if(["ruh","telsiz"].includes(vtext))
+            vtext = "ruh telsizi"
 
         for(var i = 0; i < all_evidence.length; i++){
             var leven_val = levenshtein_distance(all_evidence[i].toLowerCase(),vtext)
@@ -236,27 +200,23 @@ function parse_speech(vtext){
         reset_voice_status()
 
     }
-    else if(vtext.startsWith('speed') || vtext.startsWith('feed') || vtext.startsWith('hız')){
+    else if(vtext.startsWith('hız')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized speed command")
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('speed', "").replace('feed', "").replace('hız', "").trim()
+        vtext = vtext.replace('hız', "").trim()
 
         var smallest_speed = "normal"
         var smallest_val = 100
         var vvalue = 1
 
-        // Replacements for Turkish
-        vtext = vtext.replace("yavaş", "slow")
-        vtext = vtext.replace("hızlı", "fast")
-
-        if(vtext.startsWith("not ") || vtext.startsWith("knot ") || vtext.startsWith('değil')){
-            vtext = vtext.replace('not ', "").replace('knot ', "").trim()
+        if(vtext.vtext.startsWith('değil')){
+            vtext = vtext.replace('değil ', "").trim()
             vvalue = 0
         }
-        else if(vtext.startsWith("undo ") || vtext.startsWith("undue ") || vtext.startsWith("on do ") || vtext.startsWith("on due ") || vtext.startsWith("clear") || vtext.startsWith("kaldır")){
-            vtext = vtext.replace('undo ', "").replace('undue ', "").replace("on do ","").replace("on due ","").replace("clear ","").replace("kaldır ","").trim()
+        else if(vtext.startsWith("kaldır")){
+            vtext = vtext.replace("kaldır ","").trim()
             vvalue = 0
         }
 
@@ -275,33 +235,25 @@ function parse_speech(vtext){
         reset_voice_status()
 
     }
-    else if(vtext.startsWith('hunt sanity') || vtext.startsWith('sanity') || vtext.startsWith('akıl sağlığı')){
+    else if(vtext.startsWith('akıl sağlığı')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized speed command")
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('hunt sanity', "").replace('sanity', "").replace('akıl sağlığı', "").trim()
+        vtext = vtext.replace('akıl sağlığı', "").trim()
 
-        var smallest_sanity = "Late"
+        var smallest_sanity = "Geç"
         var smallest_val = 100
         var vvalue = 1
-
-        // Replacements for Turkish
-        vtext = vtext.replace("geç", "late")
-        vtext = vtext.replace("çok erken", "veryearly")
-        vtext = vtext.replace("erken", "early")
         
-        if(vtext.startsWith("not ") || vtext.startsWith("knot ") || vtext.startsWith('değil')){
-            vtext = vtext.replace('not ', "").replace('knot ', "").replace('değil', "").trim()
+        if(vtext.startsWith('değil')){
+            vtext = vtext.replace('değil', "").trim()
             vvalue = 0
         }
-        else if(vtext.startsWith("undo ") || vtext.startsWith("undue ") || vtext.startsWith("on do ") || vtext.startsWith("on due ") || vtext.startsWith("clear") || vtext.startsWith("kaldır")){
-            vtext = vtext.replace('undo ', "").replace('undue ', "").replace("on do ","").replace("on due ","").replace("clear ","").replace("kaldır","").trim()
+        else if(vtext.startsWith("kaldır")){
+            vtext = vtext.replace("kaldır","").trim()
             vvalue = 0
         }
-
-        vtext = vtext.replace("normal","average")
-        vtext = vtext.replace("elite","late")
 
         for(var i = 0; i < all_sanity.length; i++){
             var leven_val = levenshtein_distance(all_sanity[i].toLowerCase(),vtext)
@@ -318,38 +270,38 @@ function parse_speech(vtext){
         reset_voice_status()
 
     }
-    else if(vtext.startsWith('timer') || vtext.startsWith('sayaç')){
+    else if(vtext.startsWith('sayaç')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized timer command")
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('timer', "").replace('sayaç', "").trim()
+        vtext = vtext.replace('sayaç', "").trim()
         toggle_timer()
         send_timer()
 
         reset_voice_status()
     }
-    else if(vtext.startsWith('cooldown') || vtext.startsWith('cool down') || vtext.startsWith('bekleme süresi')){
+    else if(vtext.startsWith('bekleme süresi')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized timer command")
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('cooldown', "").replace('cool down', "").replace('bekleme süresi', "").trim()
+        vtext = vtext.replace('bekleme süresi', "").trim()
         toggle_cooldown_timer()
         send_cooldown_timer()
 
         reset_voice_status()
     }
-    else if(vtext.startsWith('number of evidence') || vtext.startsWith('difficulty') || vtext.startsWith('sayı') || vtext.startsWith('zorluk')){
+    else if(vtext.startsWith('sayı') || vtext.startsWith('zorluk')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized evidence set command")
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('number of evidence', "").replace('difficulty', "").replace('sayı', "").replace('zorluk', "").trim()
-        vtext = vtext.replace('three','3')
-        vtext = vtext.replace('two','2').replace('to','2')
-        vtext = vtext.replace('one','1')
-        vtext = vtext.replace('zero','0')
+        vtext = vtext.replace('sayı', "").replace('zorluk', "").trim()
+        vtext = vtext.replace('üç','3')
+        vtext = vtext.replace('iki','2')
+        vtext = vtext.replace('bir','1')
+        vtext = vtext.replace('sıfır','0')
 
         var smallest_num = 3
         var smallest_val = 100
@@ -373,21 +325,21 @@ function parse_speech(vtext){
 
         reset_voice_status()
     }
-    else if(vtext.startsWith('show tools') || vtext.startsWith('show filters') || vtext.startsWith('menü değiş')){
+    else if(vtext.startsWith('menü değiş')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized filter/tool command")
         console.log(`Heard '${vtext}'`)
         toggleFilterTools()
     }
-    else if(vtext.startsWith('reset cheat sheet') || vtext.startsWith('reset journal') || vtext.startsWith('rehberi sıfırla')){
+    else if(vtext.startsWith('rehberi sıfırla')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized reset command")
         console.log(`Heard '${vtext}'`)
         reset()
     }
-    else if(vtext.startsWith('stop listening') || vtext.startsWith('dinlemeyi bırak')){
+    else if(vtext.startsWith('dinlemeyi bırak')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized stop listening command")
@@ -404,7 +356,12 @@ function parse_speech(vtext){
 }
 
 if (("webkitSpeechRecognition" in window || "speechRecognition" in window) && !navigator.userAgent.toLowerCase().match(/firefox|fxios|opr/) && !('brave' in navigator)) {
-    let speechRecognition = new webkitSpeechRecognition() || new speechRecognition();
+    var grammar = `#JSGF V1.0; grammar words; public <word> =  ${all_ghosts.join(" | ")};`
+    let speechRecognition = new webkitSpeechRecognition() || new speechRecognition()
+    var speechRecognitionList = new webkitSpeechGrammarList()
+    speechRecognitionList.addFromString(grammar, 1)
+    console.log(speechRecognition.grammars)
+    speechRecognition.grammars = speechRecognitionList
     let stop_listen = true
   
     speechRecognition.continuous = false;
