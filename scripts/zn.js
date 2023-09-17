@@ -48,7 +48,7 @@ function loadAllAndConnect(){
             } catch(Error) {
                 id = false;
             }
-            fetch(`https://zero-network.net/zn/`,{headers:{Accept:"application/json"},signal: AbortSignal.timeout(10000)})
+            fetch(`https://zero-network.net/zn/?lang=${lang}`,{headers:{Accept:"application/json"},signal: AbortSignal.timeout(10000)})
             .then(e=>e.json())
             .then(e => {
                 znid = e.znid
