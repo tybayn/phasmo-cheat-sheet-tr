@@ -31,6 +31,12 @@ function parse_speech(vtext){
     vtext = vtext.toLowerCase().trim()
 
     // Overall common replacments
+    for (const [key, value] of Object.entries(ZNLANG['overall'])) {
+        for (var i = 0; i < value.length; i++) {
+            vtext = vtext.replace(value[i], key);
+        }
+    }
+
     if(vtext.startsWith('hayalet hızı')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
@@ -93,9 +99,12 @@ function parse_speech(vtext){
         }
 
         // Common fixes to ghosts
-        console.log(vtext)
-        if(vtext.startsWith("twins")){vtext = "the twins"}
-        if(vtext.startsWith("mimic")){vtext = "the mimic"}
+        var prevtext = vtext;
+        for (const [key, value] of Object.entries(ZNLANG['ghosts'])) {
+            for (var i = 0; i < value.length; i++) {
+                if(vtext.startsWith(value[i])){vtext = key}
+            }
+        }
 
         for(var i = 0; i < all_ghosts.length; i++){
             var leven_val = levenshtein_distance(all_ghosts[i].toLowerCase(),vtext)
@@ -104,6 +113,7 @@ function parse_speech(vtext){
                 smallest_ghost = all_ghosts[i]
             }
         }
+        console.log(`${prevtext} >> ${vtext} >> ${smallest_ghost}`)
 
         if (vvalue == 0){
             fade(document.getElementById(smallest_ghost));
@@ -137,16 +147,12 @@ function parse_speech(vtext){
         }
 
         //replacements for Turkish
-        if(["mor ışık"].includes(vtext))
-            vtext = "ultraviyole"
-        if(["dondurucu"].includes(vtext))
-            vtext = "soğuk"
-        if(["küre","hayalet yazısı"].includes(vtext))
-            vtext = "hayalet küresi"
-        if(["hayalet yazısı"].includes(vtext))
-            vtext = "yazı"
-        if(["ruh","telsiz"].includes(vtext))
-            vtext = "ruh telsizi"
+        var prevtext = vtext;
+        for (const [key, value] of Object.entries(ZNLANG['evidence'])) {
+            for (var i = 0; i < value.length; i++) {
+                if(vtext.startsWith(value[i])){vtext = key}
+            }
+        }
 
         for(var i = 0; i < all_evidence.length; i++){
             var leven_val = levenshtein_distance(all_evidence[i].toLowerCase(),vtext)
@@ -155,6 +161,7 @@ function parse_speech(vtext){
                 smallest_evidence = all_evidence[i]
             }
         }
+        console.log(`${prevtext} >> ${vtext} >> ${smallest_evidence}`)
 
         while (vvalue != {"good":1,"bad":-1,"neutral":0}[document.getElementById(smallest_evidence).querySelector("#checkbox").classList[0]]){
             tristate(document.getElementById(smallest_evidence));
@@ -174,16 +181,12 @@ function parse_speech(vtext){
         var vvalue = 1
 
         // Replacements for Turkish
-        if(["mor ışık"].includes(vtext))
-            vtext = "ultraviyole"
-        if(["dondurucu"].includes(vtext))
-            vtext = "soğuk"
-        if(["küre","hayalet yazısı"].includes(vtext))
-            vtext = "hayalet küresi"
-        if(["hayalet yazısı"].includes(vtext))
-            vtext = "yazı"
-        if(["ruh","telsiz"].includes(vtext))
-            vtext = "ruh telsizi"
+        var prevtext = vtext;
+        for (const [key, value] of Object.entries(ZNLANG['evidence'])) {
+            for (var i = 0; i < value.length; i++) {
+                if(vtext.startsWith(value[i])){vtext = key}
+            }
+        }
 
         for(var i = 0; i < all_evidence.length; i++){
             var leven_val = levenshtein_distance(all_evidence[i].toLowerCase(),vtext)
@@ -192,6 +195,7 @@ function parse_speech(vtext){
                 smallest_evidence = all_evidence[i]
             }
         }
+        console.log(`${prevtext} >> ${vtext} >> ${smallest_evidence}`)
 
         monkeyPawFilter($(document.getElementById(smallest_evidence)).parent().find(".monkey-paw-select"))
 
@@ -218,6 +222,14 @@ function parse_speech(vtext){
             vvalue = 0
         }
 
+        // Common replacements for speed
+        var prevtext = vtext;
+        for (const [key, value] of Object.entries(ZNLANG['speed'])) {
+            for (var i = 0; i < value.length; i++) {
+                if(vtext.startsWith(value[i])){vtext = key}
+            }
+        }
+
         for(var i = 0; i < all_speed.length; i++){
             var leven_val = levenshtein_distance(all_speed[i].toLowerCase(),vtext)
             if(leven_val < smallest_val){
@@ -225,6 +237,7 @@ function parse_speech(vtext){
                 smallest_speed = all_speed[i]
             }
         }
+        console.log(`${prevtext} >> ${vtext} >> ${smallest_speed}`)
 
         while (vvalue != {"good":1,"neutral":0}[document.getElementById(smallest_speed).querySelector("#checkbox").classList[0]]){
             dualstate(document.getElementById(smallest_speed));
@@ -253,6 +266,15 @@ function parse_speech(vtext){
             vvalue = 0
         }
 
+        // Common replacements for sanity
+        var prevtext = vtext;
+        for (const [key, value] of Object.entries(ZNLANG['sanity'])) {
+            for (var i = 0; i < value.length; i++) {
+                if(vtext.startsWith(value[i])){vtext = key}
+            }
+        }
+        console.log(`${prevtext} >> ${vtext}`)
+
         for(var i = 0; i < all_sanity.length; i++){
             var leven_val = levenshtein_distance(all_sanity[i].toLowerCase(),vtext)
             if(leven_val < smallest_val){
@@ -260,6 +282,7 @@ function parse_speech(vtext){
                 smallest_sanity = all_sanity[i]
             }
         }
+        console.log(`${prevtext} >> ${vtext} >> ${smallest_sanity}`)
 
         while (vvalue != {"good":1,"neutral":0}[document.getElementById(smallest_sanity).querySelector("#checkbox").classList[0]]){
             dualstate(document.getElementById(smallest_sanity));
