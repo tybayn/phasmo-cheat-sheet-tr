@@ -154,7 +154,7 @@ function select(elem,ignore_link=false){
     var on = $(elem).hasClass("selected")
 
     for (const [key, value] of Object.entries(state["ghosts"])){ 
-        if(value == 2 || value == -2){
+        if(value == 2){
             state['ghosts'][key] = 1
             document.getElementById(key).className = "ghost_card"
         }
@@ -162,13 +162,11 @@ function select(elem,ignore_link=false){
 
     if (on){
         $(elem).removeClass(["selected"]);
-        if (!ignore_link || internal) markedDead = false
         state["ghosts"][$(elem).find(".ghost_name")[0].innerText] = 1;
     }
     else{
-        $(elem).removeClass(["died","guessed","permhidden"])
+        $(elem).removeClass("permhidden")
         $(elem).addClass("selected");
-        if (!ignore_link || internal) markedDead = false
         state["ghosts"][$(elem).find(".ghost_name")[0].innerText] = 2;
     }
     setCookie("state",JSON.stringify(state),1)
