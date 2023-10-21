@@ -20,6 +20,16 @@ const levenshtein_distance = (str1 = '', str2 = '') => {
     return track[str2.length][str1.length];
  };
 
+ $.fn.isInViewport = function () {
+    let elementTop = $(this).offset().top;
+    let elementBottom = elementTop + $(this).outerHeight();
+  
+    let viewportTop = $(window).scrollTop();
+    let viewportBottom = viewportTop + window.innerHeight;
+  
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+}
+
 function reset_voice_status(){
     setTimeout(function(){
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic.png)";
@@ -120,6 +130,8 @@ function parse_speech(vtext){
         }
         else if (vvalue == 2){
             select(document.getElementById(smallest_ghost));
+            if(!$(document.getElementById(smallest_ghost)).isInViewport())
+                document.getElementById(smallest_ghost).scrollIntoView({alignToTop:true,behavior:"smooth"})
         }
         else if (vvalue == -1){
             remove(document.getElementById(smallest_ghost));
@@ -163,8 +175,10 @@ function parse_speech(vtext){
         }
         console.log(`${prevtext} >> ${vtext} >> ${smallest_evidence}`)
 
-        while (vvalue != {"good":1,"bad":-1,"neutral":0}[document.getElementById(smallest_evidence).querySelector("#checkbox").classList[0]]){
-            tristate(document.getElementById(smallest_evidence));
+        if(!$(document.getElementById(smallest_evidence).querySelector("#checkbox")).hasClass("block")){
+            while (vvalue != {"good":1,"bad":-1,"neutral":0}[document.getElementById(smallest_evidence).querySelector("#checkbox").classList[0]]){
+                tristate(document.getElementById(smallest_evidence));
+            }
         }
 
         reset_voice_status()
@@ -219,28 +233,51 @@ function parse_speech(vtext){
         }
         else if(vtext.startsWith("kaldır")){
             vtext = vtext.replace("kaldır ","").trim()
-            vvalue = 0
+            vvalue = -1
         }
 
-        // Common replacements for speed
-        var prevtext = vtext;
-        for (const [key, value] of Object.entries(ZNLANG['speed'])) {
-            for (var i = 0; i < value.length; i++) {
-                if(vtext.startsWith(value[i])){vtext = key}
+        vtext = vtext.replace("has ","")
+        if (vtext.startsWith("görüş alanı")){
+            console.log(`${vtext} >> Görüş alanı`)
+
+            if((vvalue==0 && all_los()) || (vvalue==1 && all_not_los())){
+                domovoi_msg = `${vvalue == 0 ? 'All' : 'No'} current ghosts have LOS!`
+            }
+            else{
+                while (!$(document.getElementById("LOS").querySelector("#checkbox")).hasClass(["neutral","bad","good"][vvalue+1])){
+                    tristate(document.getElementById("LOS"));
+                }
+                domovoi_msg = `${vvalue == -1 ? 'cleared' : vvalue == 0 ? 'marked not' : 'marked'} line of sight`
             }
         }
+        else{
 
-        for(var i = 0; i < all_speed.length; i++){
-            var leven_val = levenshtein_distance(all_speed[i].toLowerCase(),vtext)
-            if(leven_val < smallest_val){
-                smallest_val = leven_val 
-                smallest_speed = all_speed[i]
+            if (vvalue == -1){
+                vvalue = 0
             }
-        }
-        console.log(`${prevtext} >> ${vtext} >> ${smallest_speed}`)
 
-        while (vvalue != {"good":1,"neutral":0}[document.getElementById(smallest_speed).querySelector("#checkbox").classList[0]]){
-            dualstate(document.getElementById(smallest_speed));
+            // Common replacements for speed
+            var prevtext = vtext;
+            for (const [key, value] of Object.entries(ZNLANG['speed'])) {
+                for (var i = 0; i < value.length; i++) {
+                    if(vtext.startsWith(value[i])){vtext = key}
+                }
+            }
+
+            for(var i = 0; i < all_speed.length; i++){
+                var leven_val = levenshtein_distance(all_speed[i].toLowerCase(),vtext)
+                if(leven_val < smallest_val){
+                    smallest_val = leven_val 
+                    smallest_speed = all_speed[i]
+                }
+            }
+            console.log(`${prevtext} >> ${vtext} >> ${smallest_speed}`)
+
+            if(!$(document.getElementById(smallest_speed).querySelector("#checkbox")).hasClass("block")){
+                while (vvalue != {"good":1,"neutral":0}[document.getElementById(smallest_speed).querySelector("#checkbox").classList[0]]){
+                    dualstate(document.getElementById(smallest_speed));
+                }
+            }
         }
 
         reset_voice_status()
@@ -284,8 +321,10 @@ function parse_speech(vtext){
         }
         console.log(`${prevtext} >> ${vtext} >> ${smallest_sanity}`)
 
-        while (vvalue != {"good":1,"neutral":0}[document.getElementById(smallest_sanity).querySelector("#checkbox").classList[0]]){
-            dualstate(document.getElementById(smallest_sanity));
+        if(!$(document.getElementById(smallest_sanity).querySelector("#checkbox")).hasClass("block")){
+            while (vvalue != {"good":1,"neutral":0}[document.getElementById(smallest_sanity).querySelector("#checkbox").classList[0]]){
+                dualstate(document.getElementById(smallest_sanity),false,true);
+            }
         }
 
         reset_voice_status()

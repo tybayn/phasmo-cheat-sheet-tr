@@ -371,6 +371,11 @@
                         <div id="checkbox" class="neutral"><span class="icon"></span></div>
                         <div class="label">Hızlı</div>
                     </button>
+                    <hr>
+                    <button id="LOS" class="tricheck white" name="los" onclick="tristate(this)" value="LOS">
+                        <div id="checkbox" class="neutral"><span class="icon"></span></div>
+                        <div class="label label-font-s">Std. LOS Speed Up</div>
+                    </button>
                 </div>
                 <div class="hunt_sanity_title yfont white">
                     Av Akıl Sağlığı
@@ -403,6 +408,7 @@
 
         <div id="cards" class="cards"><div class="dot-flashing"></div></div>
     </div>
+    <div id="eye" onclick="revive()"><img src="imgs/eye.png"></div>
 
     <script src="scripts/metronome.js"></script>
     <script src="scripts/timer.js"></script>

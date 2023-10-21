@@ -9,7 +9,7 @@ const all_speed = ["Yavaş","Normal","Hızlı"] //Turkish Translation
 //const all_sanity = ["Late","Average","Early","VeryEarly"]
 const all_sanity = ["Geç","Ortalama","Erken","ÇokErken"] //Turkish Translation
 
-var state = {"evidence":{},"speed":{"Yavaş":0,"Normal":0,"Hızlı":0},"sanity":{"Geç":0,"Ortalama":0,"Erken":0,"ÇokErken":0},"ghosts":{}}
+var state = {"evidence":{},"speed":{"Yavaş":0,"Normal":0,"Hızlı":0},"los":-1,"sanity":{"Geç":0,"Ortalama":0,"Erken":0,"ÇokErken":0},"ghosts":{}}
 var user_settings = {"num_evidences":3,"ghost_modifier":2,"volume":50,"offset":0,"sound_type":0,"speed_logic_type":0,"bpm":0}
 
 let znid = getCookie("znid")
@@ -123,19 +123,32 @@ function dualstate(elem,ignore_link=false,radio=false){
 function tristate(elem,ignore_link=false){
     var checkbox = $(elem).find("#checkbox");
     var label = $(elem).find(".label");
+    var id  = $(elem).attr("id")
 
-    if (checkbox.hasClass("disabled")){
+    if (checkbox.hasClass("disabled") || checkbox.hasClass("block")){
         return;
     }
 
     if (checkbox.hasClass("neutral")){
         checkbox.removeClass("neutral")
-        checkbox.addClass("good")
+        if(id == "LOS" && all_not_los())
+        {
+            checkbox.addClass("bad")
+            label.addClass("strike")
+        }
+        else
+            checkbox.addClass("good")
     }
     else if (checkbox.hasClass("good")){
         checkbox.removeClass("good")
-        checkbox.addClass("bad")
-        label.addClass("strike")
+        if(id == "LOS" && all_los()){
+            checkbox.addClass("neutral")
+        }
+        else{
+            checkbox.addClass("bad")
+            label.addClass("strike")
+        }
+        
     }
     else if (checkbox.hasClass("bad")){
         checkbox.removeClass("bad")
@@ -174,26 +187,41 @@ function select(elem,ignore_link=false){
 }
 
 function fade(elem,ignore_link=false){
-    if(!ignore_link){
-        if (state["ghosts"][$(elem).find(".ghost_name")[0].innerText] != 0){
-            state["ghosts"][$(elem).find(".ghost_name")[0].innerText] = 0;
-        }
-        else{
-            state["ghosts"][$(elem).find(".ghost_name")[0].innerText] = 1;
-        }
+    $(elem).removeClass("selected")
+
+    if (state["ghosts"][$(elem).find(".ghost_name")[0].innerText] != 0){
+        state["ghosts"][$(elem).find(".ghost_name")[0].innerText] = 0;
+        $(elem).addClass("faded");
+        $(elem).find(".ghost_name").addClass("strike");
     }
-    $(elem).toggleClass("faded");
-    $(elem).removeClass("selected");
-    $(elem).find(".ghost_name").toggleClass("strike");
+    else{
+        state["ghosts"][$(elem).find(".ghost_name")[0].innerText] = 1;
+        $(elem).removeClass("faded");
+        $(elem).find(".ghost_name").removeClass("strike");
+    }
+
     setCookie("state",JSON.stringify(state),1)
-    if (hasLink && !ignore_link){send_state()}
+    if (!ignore_link){filter(ignore_link)}
 }
 
 function remove(elem,ignore_link=false){
     state["ghosts"][$(elem).find(".ghost_name")[0].innerText] = -1;
+    $(elem).find(".ghost_name").removeClass("strike");
+    $(elem).removeClass(["selected","guessed","died","faded"]);
     $(elem).addClass("permhidden");
     setCookie("state",JSON.stringify(state),1)
-    if (hasLink && !ignore_link){send_state()}
+    if (!ignore_link){filter(ignore_link)}
+}
+
+function revive(){
+    for (const [key, value] of Object.entries(state["ghosts"])){ 
+        if(value == -1){
+            state['ghosts'][key] = 0
+            document.getElementById(key).className = "ghost_card faded"
+            $(document.getElementById(key)).find(".ghost_name").addClass("strike");
+        }
+    }
+    if (hasLink){send_state()}
 }
 
 function filter(ignore_link=false){
@@ -203,9 +231,11 @@ function filter(ignore_link=false){
         state["evidence"][all_evidence[i]] = 0
     }
     state["sanity"] = {"Geç":0,"Ortalama":0,"Erken":0,"ÇokErken":0}
+    state["los"] = -1
 
     // Get values of checkboxes
     var base_speed = 1.7;
+    var ghost_array = [];
     var evi_array = [];
     
     var not_evi_array = [];
@@ -221,6 +251,8 @@ function filter(ignore_link=false){
     var sanity_checkboxes = document.querySelectorAll('[name="hunt-sanity"] .good');
     var num_evidences = document.getElementById("num_evidence").value
     var speed_logic_type = document.getElementById("speed_logic_type").checked ? 1 : 0;
+    var speed_has_los = $("#LOS").find("#checkbox").hasClass("good") ? 1 : $("#LOS").find("#checkbox").hasClass("bad") ? 0 : -1;
+    state['los'] = speed_has_los
 
     for (var i = 0; i < good_checkboxes.length; i++) {
         evi_array.push(good_checkboxes[i].parentElement.value);
@@ -272,19 +304,28 @@ function filter(ignore_link=false){
     // Get all ghosts
     var ghosts = document.getElementsByClassName("ghost_card")
     var keep_evidence = new Set();
+    var fade_evidence = new Set();
+    var not_fade_evidence = new Set();
     var keep_speed = new Set();
+    var fade_speed = new Set();
+    var not_fade_speed = new Set();
     var keep_sanity = new Set();
+    var fade_sanity = new Set();
+    var not_fade_sanity = new Set();
     var mimic_evi = []
     var mimic_nm_evi = ""
 
     for (var i = 0; i < ghosts.length; i++){
         var keep = true;
+        var loskeep = true;
+        var marked_not = $(ghosts[i]).hasClass("faded") || $(ghosts[i]).hasClass("permhidden")
         var name = ghosts[i].getElementsByClassName("ghost_name")[0].textContent;
         var evi_objects = ghosts[i].getElementsByClassName("ghost_evidence_item")
         var evidence = []
         for (var j = 0; j < evi_objects.length; j++){evidence.push(evi_objects[j].textContent)}
         var nm_evidence = ghosts[i].getElementsByClassName("ghost_nightmare_evidence")[0].textContent;
         var speed = ghosts[i].getElementsByClassName("ghost_speed")[0].textContent;
+        var has_los = parseInt(ghosts[i].getElementsByClassName("ghost_has_los")[0].textContent)
         var sanity = [
             parseInt(ghosts[i].getElementsByClassName("ghost_hunt_low")[0].textContent.replace("%","")),
             parseInt(ghosts[i].getElementsByClassName("ghost_hunt_high")[0].textContent.replace("%",""))
@@ -299,6 +340,11 @@ function filter(ignore_link=false){
         //Check for monkey paw filter
         if (evidence.includes(monkey_evi)){
             keep = false
+        }
+
+        //Check for los filter
+        if (name != "The Mimic" && speed_has_los != -1 && speed_has_los != has_los){
+            loskeep = false
         }
         
         // Check for evidences
@@ -461,41 +507,85 @@ function filter(ignore_link=false){
         }
 
         // Check if speed is being kept
-        if (keep){
+        if (keep && loskeep){
             if(min_speed < base_speed || name == "The Mimic"){
                 keep_speed.add('Yavaş')
+                if (marked_not)
+                    fade_speed.add('Yavaş')
+                else
+                    not_fade_speed.add('Yavaş')
             }
             if ((speed_type == "range" && min_speed <= base_speed && base_speed <= max_speed) || name == "The Mimic"){
                 keep_speed.add('Normal')
+                if (marked_not)
+                    fade_speed.add('Normal')
+                else
+                    not_fade_speed.add('Normal')
             }
             else if(min_speed === base_speed || max_speed === base_speed){
                 keep_speed.add('Normal')
+                if (marked_not)
+                    fade_speed.add('Normal')
+                else
+                    not_fade_speed.add('Normal')
             }
             if(max_speed > base_speed || name == "The Mimic"){
                 keep_speed.add('Hızlı')
+                if (marked_not)
+                    fade_speed.add('Hızlı')
+                else
+                    not_fade_speed.add('Hızlı')
             }
 
             if(sanity[0] > san_lookup['Geç'] || sanity[1] > san_lookup['Geç']){
                 keep_sanity.add('Geç')
+                if (marked_not)
+                    fade_sanity.add('Geç')
+                else
+                    not_fade_sanity.add('Geç')
             }
             if(sanity[0] > san_lookup['Ortalama'] || sanity[1] > san_lookup['Ortalama']){
                 keep_sanity.add('Ortalama')
+                if (marked_not)
+                    fade_sanity.add('Ortalama')
+                else
+                    not_fade_sanity.add('Ortalama')
             }
             if(sanity[0] > san_lookup['Erken'] || sanity[1] > san_lookup['Erken']){
                 keep_sanity.add('Erken')
+                if (marked_not)
+                    fade_sanity.add('Erken')
+                else
+                    not_fade_sanity.add('Erken')
             }
             if(sanity[0] > san_lookup['ÇokErken'] || sanity[1] > san_lookup['ÇokErken']){
                 keep_sanity.add('ÇokErken')
+                if (marked_not)
+                    fade_sanity.add('ÇokErken')
+                else
+                    not_fade_sanity.add('ÇokErken')
             }
         }
 
-        ghosts[i].className = ghosts[i].className.replaceAll(" hidden","");
-        if (!keep){
-            ghosts[i].className += " hidden";
+        $(ghosts[i]).removeClass(["hidden","losfiltered"])
+        if (!keep || !loskeep){
+            $(ghosts[i]).removeClass(["selected","died","guessed"])
+            $(ghosts[i]).addClass("hidden")
+            if (!loskeep && keep){
+                $(ghosts[i]).addClass("losfiltered")
+            }
+            state['ghosts'][name] = $(ghosts[i]).hasClass("faded") ? 0 : 1
         }
         else{
+            ghost_array.push(name)
             for (var e = 0; e < evidence.length; e++){
                 keep_evidence.add(evidence[e])
+                if (marked_not){
+                    fade_evidence.add(evidence[e])
+                }
+                else{
+                    not_fade_evidence.add(evidence[e])
+                }
             }
         }
     }
@@ -628,6 +718,66 @@ function filter(ignore_link=false){
         })
     }
 
+    // If one ghost, remove fade, remove permhidden
+    if(ghost_array.length == 1){
+        if($(`#${ghost_array[0]}`).hasClass("faded")){
+            fade(document.getElementById(ghost_array[0]),ignore_link)
+            return
+        }
+        if($(`#${ghost_array[0]}`).hasClass("permhidden")){
+            $(`#${ghost_array[0]}`).removeClass("permhidden")
+            filter(ignore_link)
+            return
+        }
+    }
+
+    // Loop through and fade evidence that needs to be faded
+    fade_evidence.forEach(function(item){
+        if(
+            fade_evidence.has(item) && 
+            !not_fade_evidence.has(item) &&
+            keep_evidence.has(item) &&
+            !evi_array.includes(item) &&
+            !not_evi_array.includes(item)
+        ){
+            var checkbox = document.getElementById(item);
+            $(checkbox).find("#checkbox").removeClass(["good","bad","faded"])
+            $(checkbox).find("#checkbox").addClass(["neutral","faded"])
+            $(checkbox).find(".label").addClass("disabled-text")
+            $(checkbox).find(".label").removeClass("strike")
+        }
+    })
+
+    fade_speed.forEach(function(item){
+        if(
+            fade_speed.has(item) && 
+            !not_fade_speed.has(item) && 
+            keep_speed.has(item) &&
+            !spe_array.includes(item)
+        ){
+            var checkbox = document.getElementById(item);
+            $(checkbox).find("#checkbox").removeClass(["good","bad","faded"])
+            $(checkbox).find("#checkbox").addClass(["neutral","faded"])
+            $(checkbox).find(".label").addClass("disabled-text")
+            $(checkbox).find(".label").removeClass("strike")
+        }
+    })
+
+    fade_sanity.forEach(function(item){
+        if(
+            fade_sanity.has(item) && 
+            !not_fade_sanity.has(item) && 
+            keep_sanity.has(item) &&
+            !san_array.includes(item)
+        ){
+            var checkbox = document.getElementById(item);
+            $(checkbox).find("#checkbox").removeClass(["good","bad","faded"])
+            $(checkbox).find("#checkbox").addClass(["neutral","faded"])
+            $(checkbox).find(".label").addClass("disabled-text")
+            $(checkbox).find(".label").removeClass("strike")
+        }
+    })
+
     var monkey_checkbox = document.getElementById(monkey_evi);
     $(monkey_checkbox).addClass("block")
     $(monkey_checkbox).find("#checkbox").removeClass(["good","bad"])
@@ -655,6 +805,46 @@ function filter(ignore_link=false){
     
     setCookie("state",JSON.stringify(state),1)
     if (hasLink && !ignore_link){send_state()}
+}
+
+function all_los(){
+    var ghosts = document.getElementsByClassName("ghost_card")
+    for (var i = 0; i < ghosts.length; i++){
+        var has_los = parseInt(ghosts[i].getElementsByClassName("ghost_has_los")[0].textContent)
+        if(
+            !has_los && (!$(ghosts[i]).hasClass("hidden") || ($(ghosts[i]).hasClass("hidden") && $(ghosts[i]).hasClass("losfiltered")))
+        ){
+            return false
+        }
+    }
+    
+    return true
+}
+
+function all_not_los(){
+    var ghosts = document.getElementsByClassName("ghost_card")
+    for (var i = 0; i < ghosts.length; i++){
+        var has_los = parseInt(ghosts[i].getElementsByClassName("ghost_has_los")[0].textContent)
+        if(
+            has_los && (!$(ghosts[i]).hasClass("hidden") || ($(ghosts[i]).hasClass("hidden") && $(ghosts[i]).hasClass("losfiltered")))
+        ){
+            return false
+        }
+    }
+    
+    return true
+}
+
+function hasSelected(){
+    if(Object.keys(discord_user).length > 0){
+        var ghosts = document.getElementsByClassName("ghost_card")
+        for (var i = 0; i < ghosts.length; i++){
+            if(ghosts[i].className.includes("selected") || ghosts[i].className.includes("died")){
+                return true
+            }
+        }
+    }
+    return false
 }
 
 function showInfo(){
