@@ -237,8 +237,8 @@ function parse_speech(vtext){
         }
 
         vtext = vtext.replace("has ","")
-        if (vtext.startsWith("görüş alanı")){
-            console.log(`${vtext} >> Görüş alanı`)
+        if (vtext.startsWith("görüş alanı") || vtext.startsWith("görüş mesafesi")){
+            console.log(`${vtext} >> Görüş mesafesi`)
 
             if((vvalue==0 && all_los()) || (vvalue==1 && all_not_los())){
                 domovoi_msg = `${vvalue == 0 ? 'All' : 'No'} current ghosts have LOS!`
