@@ -171,9 +171,7 @@ hr{
     }
 
     .download{
-        position: absolute;
-        right: 0;
-        bottom: 0;
+        padding-left: 5px;
     }
 
     .download_icon{
@@ -253,6 +251,17 @@ hr{
         border-color: #ccc;
         border-width: 0px 1px 1px 1px;
         border-radius: 0px 0px 5px 5px;
+    }
+
+    #guide_tab_footstep{
+        background-image: url(../imgs/footsteps-bpm.png);
+        width: 15px;
+        height: 15px;
+        background-size: cover;
+        transform: rotate(90deg);
+        position: absolute;
+        bottom: 2px;
+        left: 4px;
     }
 
     #maps_box{
@@ -342,6 +351,16 @@ hr{
         overflow-x: hidden;
         margin-bottom: 13px;
         border-radius: 5px;
+    }
+
+    .less_pad{
+        padding-top: 0px !important;
+    }
+
+    .settings_check{
+        margin-left: 0 !important;
+        height: 10px;
+        cursor: pointer;
     }
 
     #news_box .info_block {
@@ -718,6 +737,10 @@ hr{
         padding: 2px 4px 10px 4px;
     }
 
+    .timer_block{
+        width: 100%;
+    }
+
     .modifier{
         grid-column: 1;
         grid-row: 4;
@@ -740,9 +763,9 @@ hr{
     }
 
     .modifier_smudge_timer{
-        font-size: 17px;
+        font-size: 18px;
         letter-spacing: 1px;
-        padding: 10px;
+        padding: 10px 0px;
     }
 
     #ghost_modifier_speed, #modifier_volume{
@@ -769,6 +792,8 @@ hr{
         font-size: 10px;
         padding-top: 10px;
         margin: 0px 10px;
+        display: flex;
+        align-items: center;
     }
 
     .modifier_note_2{
@@ -979,6 +1004,10 @@ hr{
         position: relative;
     }
 
+    .vc_link{
+        width:176px; margin-top: 10px;
+    }
+
     .journal_link_buttons{
         width: 100%;
         display: flex;
@@ -1130,7 +1159,7 @@ hr{
         color: rgb(145, 145, 145);
         font-size: 10px;
         display: inline-block;
-        left: 9px;
+        left: 13px;
         bottom: -6px;
         position: absolute;
     }
@@ -1139,7 +1168,7 @@ hr{
         color: rgb(145, 145, 145);
         font-size: 10px;
         display: inline-block;
-        left: 71.666%;
+        left: 74.666%;
         bottom: -6px;
         position: absolute;
     }
@@ -1205,7 +1234,7 @@ hr{
         color: rgb(145, 145, 145);
         font-size: 10px;
         display: inline-block;
-        left: 25%;
+        left: 29%;
         bottom: -6px;
         position: absolute;
     }
@@ -1227,6 +1256,10 @@ hr{
         flex-wrap: nowrap;
         align-items: center;
         justify-content: space-between;
+    }
+
+    #tap:hover{
+        background-color: #ffffff60;
     }
 
     #tap_viz{
@@ -1254,12 +1287,16 @@ hr{
     }
 
     .modifier_volume{
-        font-size: 15px;
+        font-size: 18px;
         letter-spacing: 1px;
         padding: 10px 10px 0px 10px;
         position: relative;
-        width: calc(100% - 42px);
+        width: calc(100% - 20px);
         text-align: center;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
     }
 
     .modifier_volume_labels{
@@ -1484,6 +1521,26 @@ hr{
         z-index: 100;
     }
 
+    .standard_reset:hover{
+        background-color: #ffffff60 !important;
+    }
+
+    .reset_pulse{
+        padding-top:5px !important;
+        animation: blink 0.5s;
+        animation-iteration-count: 3;
+    }
+
+    @keyframes blink { 
+        50% { background-color:rgba(75, 0, 0, 0.705);}  
+    }
+
+    .reset_note{
+        color: #ffffffa0;
+        padding-top:3px;
+        font-size: 12px;
+    }
+
     .ghost_card{
         display: grid;
         width: 510px;
@@ -1534,7 +1591,7 @@ hr{
         width: 17px;
     }
 
-    .ghost_nightmare_evidence, .ghost_hunt_high, .ghost_hunt_low{
+    .ghost_nightmare_evidence, .ghost_hunt_high, .ghost_hunt_low, .ghost_has_los{
         display: none;
     }
 
@@ -1647,92 +1704,25 @@ hr{
         grid-row: 1 / 4;
         display: flex;
         align-content: center;
-        justify-content: center;
+        justify-content: space-evenly;
         align-items: flex-end;
-        padding-right: 3px;
+        padding-right: 5px;
         flex-direction: column;
     }
-    
-    .ghost_clear .icon{
-        display:inline-block;
-        width: 25px;
-        height:25px;
-        -ms-transform: rotate(45deg); /* IE 9 */
-        -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-        transform: rotate(45deg);
-        cursor: pointer;
-    }
-    
-    .ghost_clear .icon:before{
-        content:"";
-        position: absolute;
-        width:3px;
-        height:17px;
-        background-color:rgb(29, 29, 29);
-        left:11px;
-        top:4px;
-    }
-    
-    .ghost_clear .icon:after{
-        content:"";
-        position: absolute;
-        width:17px;
-        height:3px;
-        background-color:rgb(29, 29, 29);
-        left:4px;
-        top:11px;
-    }
-    
-    .ghost_clear .check{
-        display:inline-block;
-        width: 25px;
-        height:25px;
-        -ms-transform: rotate(45deg); /* IE 9 */
-        -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
-        transform: rotate(45deg);
-        cursor: pointer;
-    }
-    
-    .ghost_clear .check:before{
-        content:"";
-        position: absolute;
-        width:3px;
-        height:13px;
-        background-color:rgb(29, 29, 29);
-        left:15px;
-        top:5px;
-    }
-    
-    .ghost_clear .check:after{
-        content:"";
-        position: absolute;
-        width:8px;
-        height:3px;
-        background-color:rgb(29, 29, 29);
-        left:10px;
-        top:16px;
-    }
 
+    .card_icon{
+        width: 19px;
+        cursor: pointer;
+    }
+    
     .space{
         height:30px;
     }
 }
 
 
-.ghost_clear .icon:hover:before{
-    background-color:#ccc;
-}
-
-.ghost_clear .icon:hover:after{
-    background-color:#ccc;
-}
-
-.ghost_clear .check:hover:before{
-    background-color:#ccc;
-}
-
-.ghost_clear .check:hover:after{
-    background-color:#ccc;
+.card_icon:hover{
+    filter: invert(1);
 }
 
 .sg{
@@ -1762,7 +1752,7 @@ input{
 }
 
 @media screen and (pointer: fine),screen and (pointer: coarse) and (min-device-width: 601px) {
-    
+
     .label-font-s{
         font-size: 15px;
     }
@@ -1778,6 +1768,7 @@ input{
         letter-spacing: 1.5;
         display: grid;
         justify-content: start;
+        align-items: center;
     }
 
     #checkbox{
@@ -1951,6 +1942,69 @@ input{
     #eye img:hover{
         filter: invert(0);
     }
+
+    #domovoi{
+        position: fixed;
+        bottom: 40px;
+        right: 10px;
+        display: flex;
+        animation: domovoi-float 2s cubic-bezier(0.1, -0.6, 0.2, 0) infinite;
+        flex-direction: column;
+        align-items: flex-end;
+        z-index: 50;
+    }
+
+    .domovoi-flip{
+        align-items: flex-start !important;
+        left: 205px !important;
+        animation: domovoi-float-flip 2s cubic-bezier(0.1, -0.6, 0.2, 0) infinite !important;
+    }
+
+
+    @keyframes domovoi-float {
+        0% {
+            bottom: 40px;
+        }
+        50% {
+            bottom: 44px;
+        }
+        100% {
+            bottom: 40px;
+        }
+    }
+
+    @keyframes domovoi-float-flip {
+        0% {
+            bottom: 8px;
+        }
+        50% {
+            bottom: 12px;
+        }
+        100% {
+            bottom: 8px;
+        }
+    }
+
+    #domovoi-text{
+        font-family: "Caveat";
+        font-size: 16px;
+        letter-spacing: 2;
+        font-weight: bold;
+        border-radius: 20px;
+        padding: 10px;
+        background-image: radial-gradient(#ffffff, #ffffff77);
+        box-shadow: 0px 0px 10px 5px rgb(0 0 0);
+    }
+
+    #domovoi-img{
+        height: 25px;
+        cursor: pointer;
+    }
+
+    .domovoi-img-flip{
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+    }
 }
 
 .label{
@@ -1989,12 +2043,16 @@ input{
     transform: scale(1.1); 
 }
 
-#reset:hover, #tap:hover{
-    background-color: #ffffff60;
-}
-
 .selected {
     background-color: #353 !important;
+}
+
+.guessed {
+    background-color: rgb(89, 85, 34) !important;
+}
+
+.died {
+    background-color: rgb(71, 31, 31) !important;
 }
 
 .dot-flashing {
