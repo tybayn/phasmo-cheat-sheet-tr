@@ -8,6 +8,7 @@ const all_ghosts = ["Spirit","Wraith","Phantom","Poltergeist","Banshee","Jinn","
 const all_speed = ["Yavaş","Normal","Hızlı"] //Turkish Translation
 //const all_sanity = ["Late","Average","Early","VeryEarly"]
 const all_sanity = ["Geç","Ortalama","Erken","ÇokErken"] //Turkish Translation
+let bpm_list = []
 
 var state = {"evidence":{},"speed":{"Yavaş":0,"Normal":0,"Hızlı":0},"los":-1,"sanity":{"Geç":0,"Ortalama":0,"Erken":0,"ÇokErken":0},"ghosts":{}}
 var user_settings = {"num_evidences":3,"ghost_modifier":2,"volume":50,"mute_timer_toggle":0,"mute_timer_countdown":0,"offset":0,"sound_type":0,"speed_logic_type":0,"bpm":0,"domo_side":0}
