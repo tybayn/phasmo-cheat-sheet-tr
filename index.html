@@ -81,6 +81,9 @@
                     
                     <li>"hız &lt;hız&gt;" -> Söylenen hızı işaretler</li>
                     <li>"hız kaldır &lt;hız&gt;" -> Belirtilen hızın işaretini kaldırır</li>
+                    <li>"Standart Görüş Mesafesi Hız Artışını İşaretle" -> Standart Görüş Mesafesi Hız Artışı Seçeğini İşaretler</li>
+                    <li>"Standart Görüş Mesafesi Hız Artışını Kaldır" -> Standart Görüş Mesafesi Hız Artışını Kaldırır</li>
+                    <li>"Görüş Mesafesi Hız Filterisini Resetle" -> Görüş Mesafesi Hız Filtresini Resetler</li>
                 </ul>
                 <hr>
                 <strong>Av Akıl Sağlığı:</strong>
@@ -95,6 +98,7 @@
                     <li>"hayalet temizle &lt;hayalet&gt;" -> Hayalet kartını sıfırlar(gizlenenler dışında)</li>
                     <li>"hayalet seç &lt;hayalet&gt;" -> Belirtilen hayalet kartını işaretler/işareti kaldırır</li>
                     <li>"hayalet kaldır &lt;hayalet&gt;" -> Belirtilen hayalet kartını ekrandan kaldırır</li>
+                    <li>"bilgi göster &lt;hayalet&gt;" -> Seçilen Hayalet Kartını Ekrana Getirir</li>
                 </ul>
                 <hr>
                 <strong>Sayaç:</strong>
@@ -109,7 +113,9 @@
                 <ul>
                     <li>"menü değiş" -> Filtre ve Aletler arasında menüyü değişir</li>
                     <li>"hayalet hızı &lt;yüzde&gt;" -> Hayalet hız yüzdesini 50%, 75%, 100%, 125%, veya 150% olarak ayarlar</li>
-                    <li>"rehberi sıfırla" -> Rehberi sıfırlar(Discord ile bağlı ise kayıt edilecektir)</li>
+                    <li>"[&lt;harita adı&gt;] Haritasını Göster" -> Harita Sekmesini Açar ve Haritayı Gösterir</li>
+                    <li>"Haritayı Kapat" or "Haritayı Gizle" -> Harita Sekmesini Kapatır</li>
+                    <li>"rehberi sıfırla" -> Rehberi sıfırlar</li>
                     <li>"dinlemeyi bırak" -> Sesli komut sistemini kapatır</li>
                 </ul>
             </div>
@@ -120,7 +126,7 @@
         </div>
     </div>
 
-    <div id="settings_box" style="left:-32px;">
+    <div id="settings_box" style="left: -1000px;">
         <div id="settings_tab" onclick="showSettings()">
             Ayarlar
             <div id="settings_status"></div>
@@ -141,7 +147,12 @@
                 <div class="modifier_volume_label">%75</div>
                 <div class="modifier_volume_label">%100</div>
             </div>
-            <div class="modifier_note">(Ayak seslerinin düzeyini ayarlayın)</div>
+            <div class="modifier_note">
+                <input type="checkbox" id="mute_timer_countdown" name="mute_timer_countdown" class="settings_check" onclick="mute('countdown');saveSettings();"><label for="mute_timer_countdown">Mute Timer Countdown</label>
+            </div>
+            <div class="modifier_note less_pad">
+                <input type="checkbox" id="mute_timer_toggle" name="mute_timer_toggle" class="settings_check" onclick="mute('toggle');saveSettings();"><label for="mute_timer_toggle">Mute Timer Toggle</label>
+            </div>
             <hr>
             <div class="modifier_volume yfont white">Hız Kayması</div>
             <div id="speed_offset">
@@ -194,7 +205,7 @@
             <hr>
             <div class="modifier_volume yfont white">
                 Masaüstü Uygulaması
-                <a class="download" href="assets/ZN-Masaüstü-Uygulaması-Yükleyici.msi" download="ZN-Masaüstü-Uygulaması-Yükleyici.msi"><img class="download_icon" src="imgs/download.png"></a>
+                <a class="download" href="assets/ZN-Desktop-Link-Installer-v2.1.7.msi" download="ZN-Desktop-Link-Installer-v2.1.7.msi"><img class="download_icon" src="imgs/download.png"></a>
             </div>
             <div class="journal_link">
                 <input type="text" placeholder="DL-XXXXX" id="link_id" class="text" value="DL-XXXXX" disabled style="color:#444;">
@@ -223,14 +234,14 @@
         </div>
     </div>
 
-    <div id="wiki_box" style="left:-182px;">
-        <div id="wiki_tab" onclick="showWiki();setFlicker();">Rehberler</div>
+    <div id="wiki_box" style="left:-1000px;">
+        <div id="wiki_tab" onclick="showWiki();setFlicker();">Rehberler<div id="guide_tab_footstep" style="display: none;"></div></div>
         <span class="icon" onclick="showWiki();setFlicker();"></span>
         <div class="settings_title yfont white">Rehberler</div>
         <div id="wiki-body" class="info_block"></div>
     </div>
 
-    <div id="maps_box" style="left:-388px">
+    <div id="maps_box" style="left:-1000px;">
         <div id="maps_tab" onclick="showMaps()">Haritalar</div>
         <span class="icon" onclick="showMaps()"></span>
 
@@ -241,22 +252,40 @@
         </div>
         <div class="maps_credit">Harita görselleri <a href="https://www.reddit.com/user/Fantismal" target="_blank">Fantismal</a>'a aittir(<a href="https://imgur.com/a/iEI0tJo" target="_blank">Görseller</a>).</div>
         <div class="maps_buttons">
-            <button class="maps_button selected_map" onclick="changeMap(this,'tanglewood.png')"><div class="map_size s">S</div>6 Tanglewood Drive</button>
-            <button class="maps_button" onclick="changeMap(this,'edgefield.png')"><div class="map_size s">S</div>42 Edgefield Road</button>
-            <button class="maps_button" onclick="changeMap(this,'ridgeview.png')"><div class="map_size s">S</div>10 Ridgeview Court</button>
-            <button class="maps_button" onclick="changeMap(this,'grafton.png')"><div class="map_size s">S</div>Grafton Farmhouse</button>
-            <button class="maps_button" onclick="changeMap(this,'willow.png')"><div class="map_size s">S</div>13 Willow Street</button>
-            <button class="maps_button" onclick="changeMap(this,'brownstone.png')"><div class="map_size l">L</div>Brownstone High School</button>
-            <button class="maps_button" onclick="changeMap(this,'bleasdale.png')"><div class="map_size s">S</div>Bleasdale Farmhouse</button>
-            <button class="maps_button" onclick="changeMap(this,'sunnymeadows.png')"><div class="map_size l">L</div>Sunny Meadows</button>
-            <button class="maps_button" onclick="changeMap(this,'sunnymeadows_courtyard.png')"><div class="map_size s">S</div>SM Restricted - Courtyard</button>
-            <button class="maps_button" onclick="changeMap(this,'sunnymeadows_male.png')"><div class="map_size s">S</div>SM Restricted - Male Wing</button>
-            <button class="maps_button" onclick="changeMap(this,'sunnymeadows_female.png')"><div class="map_size s">S</div>SM Restricted - Female Wing</button>
-            <button class="maps_button" onclick="changeMap(this,'sunnymeadows_hospital.png')"><div class="map_size s">S</div>SM Restricted - Hospital</button>
-            <button class="maps_button" onclick="changeMap(this,'sunnymeadows_restricted.png')"><div class="map_size s">S</div>SM Restricted - Restricted</button>
-            <button class="maps_button" onclick="changeMap(this,'prison.png')"><div class="map_size m">M</div>Prison</button>
-            <button class="maps_button" onclick="changeMap(this,'maplelodge.png')"><div class="map_size m">M</div>Maple Lodge Campsite</button>
-            <button class="maps_button" onclick="changeMap(this,'woodwind.png')"><div class="map_size s">S</div>Camp Woodwind</button>
+            <button class="maps_button selected_map" id="tanglewood" onclick="changeMap(this,'tanglewood.png')"><div class="map_size s">S</div>6 Tanglewood Drive</button>
+            <button class="maps_button" id="edgefield" onclick="changeMap(this,'edgefield.png')"><div class="map_size s">S</div>42 Edgefield Road</button>
+            <button class="maps_button" id="ridgeview" onclick="changeMap(this,'ridgeview.png')"><div class="map_size s">S</div>10 Ridgeview Court</button>
+            <button class="maps_button" id="grafton" onclick="changeMap(this,'grafton.png')"><div class="map_size s">S</div>Grafton Farmhouse</button>
+            <button class="maps_button" id="willow" onclick="changeMap(this,'willow.png')"><div class="map_size s">S</div>13 Willow Street</button>
+            <button class="maps_button" id="brownstone" onclick="changeMap(this,'brownstone.png')"><div class="map_size l">L</div>Brownstone High School</button>
+            <button class="maps_button" id="bleasdale" onclick="changeMap(this,'bleasdale.png')"><div class="map_size s">S</div>Bleasdale Farmhouse</button>
+            <button class="maps_button" id="sunnymeadows" onclick="changeMap(this,'sunnymeadows.png')"><div class="map_size l">L</div>Sunny Meadows</button>
+            <button class="maps_button" id="sunnymeadows_courtyard" onclick="changeMap(this,'sunnymeadows_courtyard.png')"><div class="map_size s">S</div>SM Restricted - Courtyard</button>
+            <button class="maps_button" id="sunnymeadows_male" onclick="changeMap(this,'sunnymeadows_male.png')"><div class="map_size s">S</div>SM Restricted - Male Wing</button>
+            <button class="maps_button" id="sunnymeadows_female" onclick="changeMap(this,'sunnymeadows_female.png')"><div class="map_size s">S</div>SM Restricted - Female Wing</button>
+            <button class="maps_button" id="sunnymeadows_hospital" onclick="changeMap(this,'sunnymeadows_hospital.png')"><div class="map_size s">S</div>SM Restricted - Hospital</button>
+            <button class="maps_button" id="sunnymeadows_restricted" onclick="changeMap(this,'sunnymeadows_restricted.png')"><div class="map_size s">S</div>SM Restricted - Restricted</button>
+            <button class="maps_button" id="prison" onclick="changeMap(this,'prison.png')"><div class="map_size m">M</div>Prison</button>
+            <button class="maps_button" id="maplelodge" onclick="changeMap(this,'maplelodge.png')"><div class="map_size m">M</div>Maple Lodge Campsite</button>
+            <button class="maps_button" id="woodwind" onclick="changeMap(this,'woodwind.png')"><div class="map_size s">S</div>Camp Woodwind</button>
+        </div>
+    </div>
+
+    <div id="lang_blackout" style="display: none;"></div>
+    <div id="language_box" style="right:-176px;">
+        <div id="language_tab" onclick="showLanguage();">
+            <img src="imgs/langauge.png" width="24px" id="feed_icon_img"/>
+        </div>
+        <span class="icon" onclick="showLanguage()"></span>
+        <div class="settings_title yfont white">
+            <select name="language" id="language" class="language" onchange="loadLanguage();">
+                <option value="en">English 🇺🇸 / 🇬🇧 / 🇦🇺</option>
+                <option value="fr">French 🇫🇷</option>
+                <option value="de">German 🇩🇪</option>
+                <option value="pl">Polish 🇵🇱</option>
+                <option value="ru">Russian 🇷🇺</option>
+                <option value="tr" selected>Turkish 🇹🇷</option>
+            </select>
         </div>
     </div>
 
@@ -271,41 +300,45 @@
                     Sayaç
                 </div>
                 <div class="timers">
-                    <div class="modifier_smudge_timer yfont white" onclick="toggle_timer()">Tütsü Sayacı</div>
-                    <div class="line_labels" onclick="toggle_timer();send_timer();">
-                        <div class="spirit_line_label">Spirit</div>
-                        <div class="demon_line_label">Demon</div>
-                    </div>
-                    <div id="progress" onclick="toggle_timer();send_timer();">
-                        <img src="imgs/play.png" id="play_button" class="play_button">
-                        <div id="progressBar">
-                            <div id="progressBarInner" class="bar"></div>
-                            <div class="demon_line"></div>
-                            <div class="ghost_line"></div>
-                            <div class="spirit_line"></div>
+                    <div class="timer_block">
+                        <div class="modifier_smudge_timer yfont white" onclick="toggle_timer()">Tütsü Sayacı</div>
+                        <div class="line_labels" onclick="toggle_timer();send_timer();">
+                            <div class="spirit_line_label">Spirit</div>
+                            <div class="demon_line_label">Demon</div>
                         </div>
+                        <div id="progress" onclick="toggle_timer();send_timer();">
+                            <img src="imgs/play.png" id="play_button" class="play_button">
+                            <div id="progressBar">
+                                <div id="progressBarInner" class="bar"></div>
+                                <div class="demon_line"></div>
+                                <div class="ghost_line"></div>
+                                <div class="spirit_line"></div>
+                            </div>
+                        </div>
+                        <div id="time_left" onclick="toggle_timer();send_timer();">
+                            <span id="minute">03</span>:<span id="second">00</span>
+                        </div>
+                        <div class="modifier_note_2" onclick="toggle_timer();send_timer();">(Başlatmak/Durdurmak için 'T' tuşuna basın)</div>
                     </div>
-                    <div id="time_left" onclick="toggle_timer();send_timer();">
-                        <span id="minute">03</span>:<span id="second">00</span>
-                    </div>
-                    <div class="modifier_note_2" onclick="toggle_timer();send_timer();">(Başlatmak/Durdurmak için 'T' tuşuna basın)</div>
                     <hr>
-                    <div class="modifier_smudge_timer yfont white" onclick="toggle_cooldown_timer()">Bekleme Süresi Sayacı</div>
-                    <div class="line_labels" onclick="toggle_cooldown_timer();send_cooldown_timer();">
-                        <div class="cooldown_demon_line_label">Demon</div>
-                    </div>
-                    <div id="cooldownProgress" onclick="toggle_cooldown_timer();send_cooldown_timer();">
-                        <img src="imgs/play.png" id="play_cooldown_button" class="play_button">
-                        <div id="cooldownProgressBar">
-                            <div id="cooldownProgressBarInner" class="bar"></div>
-                            <div class="ghost_line"></div>
-                            <div class="demon_line"></div>
+                    <div class="timer_block">
+                        <div class="modifier_smudge_timer yfont white" onclick="toggle_cooldown_timer()">Bekleme Süresi Sayacı</div>
+                        <div class="line_labels" onclick="toggle_cooldown_timer();send_cooldown_timer();">
+                            <div class="cooldown_demon_line_label">Demon</div>
                         </div>
+                        <div id="cooldownProgress" onclick="toggle_cooldown_timer();send_cooldown_timer();">
+                            <img src="imgs/play.png" id="play_cooldown_button" class="play_button">
+                            <div id="cooldownProgressBar">
+                                <div id="cooldownProgressBarInner" class="bar"></div>
+                                <div class="ghost_line"></div>
+                                <div class="demon_line"></div>
+                            </div>
+                        </div>
+                        <div id="time_left_cooldown" onclick="toggle_cooldown_timer();send_cooldown_timer();">
+                            <span id="minute_cooldown">00</span>:<span id="second_cooldown">25</span>
+                        </div>
+                        <div class="modifier_note_2" onclick="toggle_cooldown_timer();send_cooldown_timer();">(Başlatmak/Durdurmak için 'H' tuşuna basın)</div>
                     </div>
-                    <div id="time_left_cooldown" onclick="toggle_cooldown_timer();send_cooldown_timer();">
-                        <span id="minute_cooldown">00</span>:<span id="second_cooldown">25</span>
-                    </div>
-                    <div class="modifier_note_2" onclick="toggle_cooldown_timer();send_cooldown_timer();">(Başlatmak/Durdurmak için 'H' tuşuna basın)</div>
                 </div>
                 <div class="modifier_title yfont white">
                     Aletler
@@ -329,7 +362,7 @@
                         </label>
                         <img src="imgs/metronome.png">
                     </div>
-                    <div class="modifier_note">(Hızı duymak için &#128266; tuşuna basın)</div>
+                    <div class="modifier_note">(Hızı duymak için <span class="sound" onclick="toggleSound(1.7,'spirit0')">&#128266;</span> tuşuna basın)</div>
                     <hr>
                     <div class="modifier_bpm_finder yfont white">BPM Bulucu</div>
                     <button id="tap" class="yfont" onclick="bpm_tap()">
@@ -408,24 +441,48 @@
 
         <div id="cards" class="cards"><div class="dot-flashing"></div></div>
     </div>
+
+    <div id="domovoi" style="display: none;">
+        <div id="domovoi-text" style="display: none;">Merhaba! Ben Domo'yum!</div>
+        <img id="domovoi-img" src="imgs/domovoi.png" onmouseenter="domovoi_show_last()" onmouseleave="domovoi_hide_last()" ondblclick="domovoi_print_logs()">
+    </div>
     <div id="eye" onclick="revive()"><img src="imgs/eye.png"></div>
 
+
+    <script>
+        mquery = window.matchMedia("screen and (pointer: coarse) and (max-device-width: 600px)")
+        if(mquery.matches){
+            document.getElementById("settings_box").style.left = "calc(-60% - 40px)";
+            document.getElementById("event_box").style.left = "calc(-60% - 40px)";
+            document.getElementById("wiki_box").style.left = "calc(-60% - 40px)";
+            document.getElementById("maps_box").style.left = "calc(-60% - 40px)";
+        }
+        else{
+            document.getElementById("settings_box").style.left = "-32px";
+            document.getElementById("event_box").style.left = "-182px";
+            document.getElementById("wiki_box").style.left = "-182px";
+            document.getElementById("maps_box").style.left = "-388px";
+        }
+    </script>
     <script src="scripts/metronome.js"></script>
     <script src="scripts/timer.js"></script>
     <script src="wiki/wiki.js"></script>
     <script src="scripts/filter.js"></script>
-    <script src="events/events.js"></script>
     <script src="scripts/wslink.js"></script>
     <script src="scripts/zn.js"></script>
+    <script src="events/events.js"></script>
     <script src="scripts/voice_tr.js"></script>
     <script src="scripts/voice_recognition.js"></script>
     <script src="scripts/sparkles.js"></script>
     <script>
         $(window).on('load', function() {
-            checkParams()
+            let load_wiki = new Promise((resolve, reject) => {
+                $("#wiki-body").load("wiki/wiki.html")
+                resolve("Ghost data loaded")
+            })
+            Promise.all([load_wiki])
             .then(x => {
                 loadAllAndConnect()
-                $(function(){$("#wiki-body").load("wiki/wiki.html")});
                 if(getCookie("voice_recognition_on")){
                     start_voice()
                 }
