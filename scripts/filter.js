@@ -7,6 +7,7 @@ const all_speed = ["Yavaş","Normal","Hızlı"] //Turkish Translation
 const all_sanity = ["Geç","Ortalama","Erken","ÇokErken"] //Turkish Translation
 let all_evidence = []
 let all_ghosts = []
+let all_maps = {}
 let bpm_list = []
 
 var state = {"evidence":{},"speed":{"Yavaş":0,"Normal":0,"Hızlı":0},"los":-1,"sanity":{"Geç":0,"Ortalama":0,"Erken":0,"ÇokErken":0},"ghosts":{}}
