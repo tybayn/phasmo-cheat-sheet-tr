@@ -13,13 +13,13 @@
         };
     </script>
     <script src="jquery/jquery-3.6.2.min.js"></script>
-    <script src="scripts/ghost_template.js"></script>
-    <link rel="stylesheet" href="styles/style.css"/>
-    <link rel="stylesheet" href="styles/style-mobile.css"/>
+    <script src="scripts-v2/ghost_template.js"></script>
+    <link rel="stylesheet" href="styles-v2/style.css"/>
+    <link rel="stylesheet" href="styles-v2/style-mobile.css"/>
     <link rel="stylesheet" href="themes/themes.css"/>
-    <link rel="stylesheet" href="wiki/wiki.css" >
+    <link rel="stylesheet" href="wiki-v2/wiki.css" >
     <link rel="stylesheet" href="events/events.css" >
-    <link rel="stylesheet" href="styles/sparkles.css" >
+    <link rel="stylesheet" href="styles-v2/sparkles.css" >
 </head>
 
 <body>
@@ -70,7 +70,9 @@
             <div class="info_block" style="margin-top: 10px; overflow-y: scroll; overflow-x: hidden;">
                 <strong>Kanıt:</strong>
                 <ul>
-                    <li>"sayı &lt;sayı&gt;" veya "zorluk &lt;sayı&gt;" -> Kanıt sayısını ayarlar</li>
+                    <li>"zorluk &lt;zorluk&gt;" -> Zorluk derecesini ayarlayın</li>
+                    <li>"sayı &lt;sayı&gt;" -> Özel: Kanıt sayısını ayarlayın</li>
+                    <li>"avlanma süresi &lt;süre&gt;" -> Özel: Avlanma süresini ayarla</li>
                     <li>"kanıt &lt;kanıt&gt;" -> Kanıtı bulundu olarak işaretler</li>
                     <li>"kanıt yok &lt;kanıt&gt;" -> Kanıtı yok olarak işaretler</li>
                     <li>"kanıt kaldır &lt;kanıt&gt;" -> Kanıtı kaldırır</li>
@@ -108,12 +110,15 @@
                     <li>"sayaç durdur" -> Tütsü sayacını durdurur</li>
                     <li>"bekleme süresi başlat" -> Bekleme süresi sayacını başlatır</li>
                     <li>"bekleme süresi durdur " -> Bekleme süresi sayacını durdurur</li>
+                    <li>"hunt başlat" -> Av sayacını başlatır</li>
+                    <li>"hunt durdur " -> Av sayacını durdurur</li>
                 </ul>
                 <hr>
                 <strong>Diğer:</strong>
                 <ul>
                     <li>"menü değiş" -> Filtre ve Aletler arasında menüyü değişir</li>
                     <li>"hayalet hızı &lt;yüzde&gt;" -> Hayalet hız yüzdesini 50%, 75%, 100%, 125%, veya 150% olarak ayarlar</li>
+                    <li>"&lt;harita adı&gt; Haritasını Seçin" -> Belirtilen haritayı seçer</li>
                     <li>"[&lt;harita adı&gt;] Haritasını Göster" -> Harita Sekmesini Açar ve Haritayı Gösterir</li>
                     <li>"Haritayı Kapat" or "Haritayı Gizle" -> Harita Sekmesini Kapatır</li>
                     <li>"rehberi sıfırla" -> Rehberi sıfırlar</li>
@@ -151,10 +156,13 @@
                 <div class="modifier_volume_label">%100</div>
             </div>
             <div class="modifier_note">
-                <input type="checkbox" id="mute_timer_countdown" name="mute_timer_countdown" class="settings_check" onclick="mute('countdown');saveSettings();"><label for="mute_timer_countdown">Mute Timer Countdown</label>
+                <input type="checkbox" id="mute_timer_countdown" name="mute_timer_countdown" class="settings_check" onclick="mute('countdown');saveSettings();"><label for="mute_timer_countdown">Geri sayım sesini kapat</label>
             </div>
             <div class="modifier_note less_pad">
-                <input type="checkbox" id="mute_timer_toggle" name="mute_timer_toggle" class="settings_check" onclick="mute('toggle');saveSettings();"><label for="mute_timer_toggle">Mute Timer Toggle</label>
+                <input type="checkbox" id="mute_timer_toggle" name="mute_timer_toggle" class="settings_check" onclick="mute('toggle');saveSettings();"><label for="mute_timer_toggle">Geçiş seslerini kapatın</label>
+            </div>
+            <div class="modifier_note less_pad">
+                <input type="checkbox" id="timer_count_up" name="timer_count_up" class="settings_check" onclick="toggleCountup();saveSettings();"><label for="timer_count_up">Zamanlayıcı yönünü değiştirme</label>
             </div>
             <hr>
             <div class="modifier_volume yfont white">Hız Kayması</div>
@@ -188,7 +196,7 @@
             </div>
             <hr>
             <div class="modifier_volume yfont white">Sesli Komutlar</div>
-            <div class="journal_link" style="width:176px; margin-top: 10px;">
+            <div class="journal_link" style="margin-top: 10px;">
                 <div class="journal_link_buttons">
                     <button id="start_voice" class="journal_link_button" onclick="start_voice()">Etkinleştir</button>
                     <button id="stop_voice" class="journal_link_button" onclick="stop_voice()" disabled>Devre Dışı Bırak</button>
@@ -252,7 +260,7 @@
         <span class="icon" onclick="showMaps()"></span>
 
         <div class="maps_title yfont white">Haritalar</div>
-        <div class="maps_image" onmouseenter="zoomMap(this)" onmouseleave="unZoomMap(this)" onmousemove="moveZoom(this,event)">
+        <div class="maps_image" onpointerenter="zoomMap(this)" onpointerleave="unZoomMap(this)" onpointermove="moveZoom(this,event)">
             <div class="map_image"></div>
             <div class="hover_zoom">+ Yakınlaştırmak için üzerine gelin</div>
         </div>
@@ -285,10 +293,10 @@
     </div>
 
     <div class="data">
-        <div class="menu">
+        <div id="menu" class="menu">
             <div class="tools-filter-buttons">
-                <button id="show_filter_button" class="filter_tool_button filter_tool_button_live">Filtreler</button>
-                <button id="show_tool_button" class="filter_tool_button filter_tool_button_back" onclick="toggleFilterTools()">Aletler</button>
+                <button id="show_filter_button" class="filter_tool_button filter_tool_button_live" onclick="showMenu()">Filtreler</button>
+                <button id="show_tool_button" class="filter_tool_button filter_tool_button_back" onclick="toggleFilterTools();showMenu();">Aletler</button>
             </div>
             <div id="tools-content" class="tools-content" style="display: none;">
                 <div class="timer_title yfont white">
@@ -296,7 +304,10 @@
                 </div>
                 <div class="timers">
                     <div class="timer_block">
-                        <div class="modifier_smudge_timer yfont white" onclick="toggle_timer()">Tütsü Sayacı</div>
+                        <div class="modifier_smudge_timer yfont white" onclick="toggle_timer()">
+                            Tütsü
+                            <div class="modifier_note_2">('T' - başlat/durdur)</div>
+                        </div>
                         <div class="line_labels" onclick="toggle_timer();send_timer();">
                             <div class="spirit_line_label">Spirit</div>
                             <div class="demon_line_label">Demon</div>
@@ -313,11 +324,13 @@
                         <div id="time_left" onclick="toggle_timer();send_timer();">
                             <span id="minute">03</span>:<span id="second">00</span>
                         </div>
-                        <div class="modifier_note_2" onclick="toggle_timer();send_timer();">(Başlatmak/Durdurmak için 'T' tuşuna basın)</div>
                     </div>
                     <hr>
                     <div class="timer_block">
-                        <div class="modifier_smudge_timer yfont white" onclick="toggle_cooldown_timer()">Bekleme Süresi Sayacı</div>
+                        <div class="modifier_smudge_timer yfont white" onclick="toggle_cooldown_timer()">
+                            Bekliyor
+                            <div class="modifier_note_2">('C' - başlat/durdur)</div>
+                        </div>
                         <div class="line_labels" onclick="toggle_cooldown_timer();send_cooldown_timer();">
                             <div class="cooldown_demon_line_label">Demon</div>
                         </div>
@@ -332,7 +345,28 @@
                         <div id="time_left_cooldown" onclick="toggle_cooldown_timer();send_cooldown_timer();">
                             <span id="minute_cooldown">00</span>:<span id="second_cooldown">25</span>
                         </div>
-                        <div class="modifier_note_2" onclick="toggle_cooldown_timer();send_cooldown_timer();">(Başlatmak/Durdurmak için 'H' tuşuna basın)</div>
+                    </div>
+                    <hr>
+                    <div class="timer_block">
+                        <div class="modifier_smudge_timer yfont white" onclick="toggle_hunt_timer();send_hunt_timer();">
+                            Hunt
+                            <div class="modifier_note_2">('H' - başlat/durdur)</div>
+                        </div>
+                        <div class="line_labels" onclick="toggle_hunt_timer();send_hunt_timer();">
+                            <div class="hunt_cursed_line_label">Lanetli</div>
+                            <div class="hunt_size_label">Harita: S, Hunt: D</div>
+                        </div>
+                        <div id="huntProgress" onclick="toggle_hunt_timer();send_hunt_timer();">
+                            <img src="imgs/play.png" id="play_hunt_button" class="play_button">
+                            <div id="huntProgressBar">
+                                <div id="huntProgressBarInner" class="bar"></div>
+                                <div class="normal_line"></div>
+                                <div class="cursed_line"></div>
+                            </div>
+                        </div>
+                        <div id="time_left_hunt" onclick="toggle_hunt_timer();send_hunt_timer();">
+                            <span id="minute_hunt">00</span>:<span id="second_hunt">50</span>
+                        </div>
                     </div>
                 </div>
                 <div class="modifier_title yfont white">
@@ -384,11 +418,30 @@
             </div>
             <div id="filter-content" class="filter-content">
                 <div class="evidence_title yfont white">
-                    Kanıt <select name="num_evidence" id="num_evidence" class="num_evidence" onchange="filter();flashMode();saveSettings();">
-                        <option value="3">3</option>
-                        <option value="2">2</option>
-                        <option value="1">1</option>
-                        <option value="0">0</option>
+                    Kanıt 
+                </div>
+
+                <select name="num_evidence" id="num_evidence" class="num_evidence" onchange="showCustom();filter();flashMode();updateMapDifficulty(this.value);saveSettings();">
+                    <option value="3A">Amatör (3)</option>
+                    <option value="3I">Orta (3)</option>
+                    <option value="3">Profesyonel (3)</option>
+                    <option value="2">Karabasan (2)</option>
+                    <option value="1">Cinnet (1)</option>
+                    <option value="0">Kıyamet (0)</option>
+                    <option value="-1">Özel (?)</option>
+                </select>
+
+                <div id="custom_options" style="display: none;">
+                    <select name="cust_num_evidence" id="cust_num_evidence" class="cust_num_evidence" style="width: calc(50% - 2px); margin-right: 2px;" onchange="filter();flashMode();saveSettings();">
+                        <option value="3">Evi: 3</option>
+                        <option value="2">Evi: 2</option>
+                        <option value="1">Evi: 1</option>
+                        <option value="0">Evi: 0</option>
+                    </select>
+                    <select name="cust_hunt_length" id="cust_hunt_length" class="cust_num_evidence"  style="width: calc(50% - 2px); margin-left: 2px;" onchange="filter();updateMapDifficulty(this.value);saveSettings();">
+                        <option value="3A">Hunt: Düşük</option>
+                        <option value="3I">Hunt: Orta</option>
+                        <option value="3">Hunt: Yüksek</option>
                     </select>
                 </div>
                 <div id="game_mode" class="yfont white" style="display:none;">Cinnet</div>
@@ -443,7 +496,8 @@
             </div>
             <div id="active-users"><span id="current-version-label"></span> | <span id="active-users-label">Aktif Kullanıcılar: -</span></div>
             <div class="copyright" onclick="showInfo()"><img class="question" src="imgs/question.png"> Bilgi / Telif Hakkı</div>
-            <button id="reset" class="yfont" onclick="reset()">Sıfırla</button>
+            <div id="close-menu-button" onclick="closeMenu()"></div>
+            <button id="reset" class="yfont standard_reset" onclick="reset()" onmouseenter="checkResetButton()" onmouseleave="resetResetButton()">Sıfırla</button>
 
         </div>
 
@@ -463,7 +517,7 @@
             document.getElementById("settings_box").style.left = "calc(-60% - 40px)";
             document.getElementById("event_box").style.left = "calc(-60% - 40px)";
             document.getElementById("wiki_box").style.left = "calc(-60% - 40px)";
-            document.getElementById("maps_box").style.left = "calc(-60% - 40px)";
+            document.getElementById("maps_box").style.left = "calc(-100% + 60px)";
         }
         else{
             document.getElementById("settings_box").style.left = "-32px";
@@ -473,21 +527,21 @@
         }
     </script>
     <script src="themes/themes.js"></script>
-    <script src="scripts/audio_controller.js"></script>
-    <script src="scripts/metronome.js"></script>
-    <script src="scripts/timer.js"></script>
-    <script src="wiki/wiki.js"></script>
-    <script src="scripts/filter.js"></script>
-    <script src="scripts/wslink.js"></script>
-    <script src="scripts/zn.js"></script>
+    <script src="scripts-v2/audio_controller.js"></script>
+    <script src="scripts-v2/metronome.js"></script>
+    <script src="scripts-v2/timer.js"></script>
+    <script src="wiki-v2/wiki.js"></script>
+    <script src="scripts-v2/filter.js"></script>
+    <script src="scripts-v2/wslink.js"></script>
+    <script src="scripts-v2/zn.js"></script>
     <script src="events/events.js"></script>
-    <script src="scripts/voice_tr.js"></script>
-    <script src="scripts/voice_recognition.js"></script>
-    <script src="scripts/sparkles.js"></script>
+    <script src="scripts-v2/voice_tr.js"></script>
+    <script src="scripts-v2/voice_recognition.js"></script>
+    <script src="scripts-v2/sparkles.js"></script>
     <script>
         $(window).on('load', function() {
             let load_wiki = new Promise((resolve, reject) => {
-                $("#wiki-body").load("wiki/wiki.html")
+                $("#wiki-body").load("wiki-v2/wiki.html")
                 resolve("Ghost data loaded")
             })
             Promise.all([load_wiki,checkLink()])

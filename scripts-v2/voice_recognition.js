@@ -561,7 +561,7 @@ function parse_speech(vtext){
         console.log(`Heard '${vtext}'`)
         vtext = vtext.replace('tütsü sayac', "").replace('sayaç', "").trim()
         
-        if(vtext == "başla"){
+        if(vtext == "başla" || vtext == "başlat"){
             domovoi_msg += "tütsü sayacı başladı"
             toggle_timer(true,false)
             send_timer(true,false)
@@ -585,7 +585,30 @@ function parse_speech(vtext){
         console.log(`Heard '${vtext}'`)
         vtext = vtext.replace('bekleme süresi', "").replace('av sayacı', "").trim()
 
-        if(vtext == "başla"){
+        if(vtext == "başla" || vtext == "başlat"){
+            domovoi_msg += "Bekleme Sayacı Başlatıldı"
+            toggle_cooldown_timer(true,false)
+            send_cooldown_timer(true,false)
+        } 
+        else{
+            domovoi_msg += "Bekleme Sayacı Durduruldu"
+            toggle_cooldown_timer(false,true)
+            send_cooldown_timer(false,true)
+        }
+
+        domovoi_heard(domovoi_msg)
+        running_log[cur_idx]["Domo"] = domovoi_msg
+        reset_voice_status()
+    }
+    else if(vtext.startsWith('hunt')){
+        document.getElementById("voice_recognition_status").className = null
+        document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
+        console.log("Recognized hunt command")
+        running_log[cur_idx]["Type"] = "hunt"
+        console.log(`Heard '${vtext}'`)
+        vtext = vtext.replace('hunt', "").trim()
+
+        if(vtext == "başla" || vtext == "başlat"){
             domovoi_msg += "Av Sayacı Başladı"
             toggle_cooldown_timer(true,false)
             send_cooldown_timer(true,false)
@@ -600,13 +623,54 @@ function parse_speech(vtext){
         running_log[cur_idx]["Domo"] = domovoi_msg
         reset_voice_status()
     }
-    else if(vtext.startsWith('sayı') || vtext.startsWith('zorluk')){
+    else if(vtext.startsWith('avlanma süresi ')){
+        document.getElementById("voice_recognition_status").className = null
+        document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
+        console.log("Recognized avlanma süresi command")
+        running_log[cur_idx]["Type"] = "avlanma süresi"
+        console.log(`Heard '${vtext}'`)
+        vtext = vtext.replace('avlanma süresi ', "").trim()
+        domovoi_msg += "avlanma süresini "
+
+        if(document.getElementById("num_evidence").value == "-1"){
+
+            var smallest_num = "3"
+            var smallest_val = 100
+            var prev_value = document.getElementById("cust_hunt_length").value
+            var all_hunt_length = ["kısa","düşük","orta","uzun","yüksek"]
+
+            for(var i = 0; i < all_hunt_length.length; i++){
+                var leven_val = levenshtein_distance(all_hunt_length[i],vtext)
+                if(leven_val < smallest_val){
+                    smallest_val = leven_val 
+                    smallest_num = all_hunt_length[i]
+                }
+            }
+            domovoi_msg += (smallest_num + " olarak ayarlayın")
+
+            smallest_num = {"kısa":"3A","düşük":"3A","orta":"3I","uzun":"3","yüksek":"3"}[smallest_num]
+            document.getElementById("cust_hunt_length").value = smallest_num
+            if(prev_value != smallest_num){
+                filter()
+                updateMapDifficulty(smallest_num)
+                saveSettings()
+            }
+        }
+        else{
+            domovoi_msg = "özel zorluk seçili değil"
+        }
+
+        domovoi_heard(domovoi_msg)
+        running_log[cur_idx]["Domo"] = domovoi_msg
+        reset_voice_status()
+    }
+    else if(vtext.startsWith('zorluk')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized evidence set command")
         running_log[cur_idx]["Type"] = "evidence set"
         console.log(`Heard '${vtext}'`)
-        vtext = vtext.replace('sayı', "").replace('zorluk', "").trim()
+        vtext = vtext.replace('zorluk', "").trim()
         domovoi_msg += "etkin olan kanıt sayısı "
 
         vtext = vtext.replace('üç','3')
@@ -614,10 +678,49 @@ function parse_speech(vtext){
         vtext = vtext.replace('bir','1')
         vtext = vtext.replace('sıfır','0')
 
-        var smallest_num = 3
+        if(document.getElementById("num_evidence").value == "-1"){
+            var smallest_num = '3'
+            var smallest_val = 100
+            var prev_value = document.getElementById("cust_num_evidence").value
+            var all_difficulty = ['0','1','2','3']
+
+            for(var i = 0; i < all_difficulty.length; i++){
+                var leven_val = levenshtein_distance(all_difficulty[i],vtext)
+                if(leven_val < smallest_val){
+                    smallest_val = leven_val 
+                    smallest_num = all_difficulty[i]
+                }
+            }
+            domovoi_msg += smallest_num
+
+            document.getElementById("cust_num_evidence").value = smallest_num ?? 3
+            if(prev_value != smallest_num){
+                filter()
+                flashMode()
+                saveSettings()
+            }
+        }
+        else{
+            domovoi_msg = "özel zorluk seçili değil"
+        }
+
+        domovoi_heard(domovoi_msg)
+        running_log[cur_idx]["Domo"] = domovoi_msg
+        reset_voice_status()
+    }
+    else if(vtext.startsWith('sayı')){
+        document.getElementById("voice_recognition_status").className = null
+        document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
+        console.log("Recognized evidence set command")
+        running_log[cur_idx]["Type"] = "evidence set"
+        console.log(`Heard '${vtext}'`)
+        vtext = vtext.replace('sayı', "").trim()
+        domovoi_msg += "etkin olan kanıt sayısı "
+
+        var smallest_num = '3'
         var smallest_val = 100
         var prev_value = document.getElementById("num_evidence").value
-        var all_difficulty = ['0','1','2','3']
+        var all_difficulty = ["özel","kıyamet","cinnet","karabasan","profesyonel","orta","amatör"]
 
         for(var i = 0; i < all_difficulty.length; i++){
             var leven_val = levenshtein_distance(all_difficulty[i],vtext)
@@ -628,9 +731,12 @@ function parse_speech(vtext){
         }
         domovoi_msg += smallest_num
 
-        document.getElementById("num_evidence").value = smallest_num ?? 3
+        smallest_num = {"özel":"-1","kıyamet":"0","cinnet":"1","karabasan":"2","profesyonel":"3","orta":"3I","amatör":"3A"}[smallest_num]
+        document.getElementById("num_evidence").value = smallest_num
         if(prev_value != smallest_num){
             filter()
+            updateMapDifficulty(smallest_num)
+            showCustom()
             flashMode()
             saveSettings()
         }
@@ -686,16 +792,58 @@ function parse_speech(vtext){
             console.log(`${prevtext} >> ${vtext} >> ${smallest_map}`)
             running_log[cur_idx]["Debug"] = `${prevtext} >> ${vtext} >> ${smallest_map}`
             domovoi_msg = `${smallest_map} haritasını göster`
+
+            changeMap(document.getElementById(smallest_map),all_maps[smallest_map])
         }
 
-        changeMap(document.getElementById(smallest_map),all_maps[smallest_map])
         showMaps(true,false)
 
         domovoi_heard(domovoi_msg)
         running_log[cur_idx]["Domo"] = domovoi_msg
         reset_voice_status()
     }
-    else if(vtext.startsWith('Haritayı Kapat') || vtext.startsWith('Haritayı Gizle')){
+    else if(vtext.endsWith('haritasını seçin')){
+        document.getElementById("voice_recognition_status").className = null
+        document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
+        console.log("Recognized Haritasını command")
+        running_log[cur_idx]["Type"] = "Haritasını"
+        console.log(`Heard '${vtext}'`)
+        vtext = vtext.replace('haritasını seçin', "").trim()
+
+        var smallest_map = "tanglewood"
+        var smallest_val = 100
+
+        if(vtext != ""){
+
+            // Common replacements for maps
+            var prevtext = vtext;
+            for (const [key, value] of Object.entries(ZNLANG['maps'])) {
+                for (var i = 0; i < value.length; i++) {
+                    if(vtext.includes(value[i])){vtext = vtext.replace(value[i],key)}
+                }
+            }
+
+            var maps = document.getElementsByClassName("maps_button")
+
+            for(var i = 0; i < maps.length; i++){
+                var leven_val = levenshtein_distance(maps[i].id.toLowerCase(),vtext)
+                if(leven_val < smallest_val){
+                    smallest_val = leven_val 
+                    smallest_map = maps[i].id
+                }
+            }
+            console.log(`${prevtext} >> ${vtext} >> ${smallest_map}`)
+            running_log[cur_idx]["Debug"] = `${prevtext} >> ${vtext} >> ${smallest_map}`
+            domovoi_msg = `${smallest_map} haritasını seçin`
+        }
+
+        changeMap(document.getElementById(smallest_map),all_maps[smallest_map])
+
+        domovoi_heard(domovoi_msg)
+        running_log[cur_idx]["Domo"] = domovoi_msg
+        reset_voice_status()
+    }
+    else if(vtext.startsWith('haritayı kapat') || vtext.startsWith('haritayı gizle')){
         document.getElementById("voice_recognition_status").className = null
         document.getElementById("voice_recognition_status").style.backgroundImage = "url(imgs/mic-recognized.png)"
         console.log("Recognized map command")
