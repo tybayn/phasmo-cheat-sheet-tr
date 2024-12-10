@@ -222,7 +222,8 @@
             "nightmare_evidence": null,
             "behavior": [
                 "<Tells>",
-                "Odada birisi varken EMF 2, 3 veya 5 kanıt veren etkileşimler yapmaz (yazı dışında)",
+                "Bir oyuncu ile aynı odada etkinlik gerçekleştiremez (ancak odanın dışında bir etkinlik başlatabilir ve oyuncuya ışınlanabilir)",
+                "Hayalet yazma ve alev üfleme dahil olmak üzere oyuncuyla aynı odadayken EMF 2, EMF 3 veya EMF 5 ile sonuçlanan etkileşimlerde bulunmaz (odadan çıkabilir ve odadaki şeylerle etkileşime girebilir)",
                 "Odada birisi varken av başlatmaz",
                 "<Behavior>",
                 "Düşük akıl sağlığında daha fazla hayalet etkinliği",
